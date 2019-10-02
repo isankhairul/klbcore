@@ -1,10 +1,10 @@
 <?php namespace Klb\Core\Queue;
 
-use Kalbe\Event\FailingJob;
+use Klb\Core\Event\FailingJob;
 use Klb\Core\Queue\Traits\DetectsLostConnections;
 use Exception;
-use Kalbe\Event\Aware\WorkerInterface;
-use Kalbe\Event\WorkerListener;
+use Klb\Core\Event\Aware\WorkerInterface;
+use Klb\Core\Event\WorkerListener;
 use Phalcon\Di\InjectionAwareInterface;
 use Throwable;
 

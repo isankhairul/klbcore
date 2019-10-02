@@ -1,8 +1,10 @@
 <?php namespace Klb\Core\Queue\Failed;
-use Kalbe\Model\FailedJobs;
+
+use Klb\Core\Model\FailedJobs;
 
 /**
  * Class DatabaseFailedJob
+ *
  * @package Klb\Core\Queue\Failed
  */
 class DatabaseFailedJob implements FailedJobInterface
@@ -63,6 +65,6 @@ class DatabaseFailedJob implements FailedJobInterface
          * @var \Phalcon\Mvc\Model\ManagerInterface $manager
          */
         $manager = di()->get('modelsManager');
-        return $manager->getWriteConnection(new FailedJobs);
+        return $manager->getWriteConnection(new FailedJobs());
     }
 }

@@ -1,7 +1,7 @@
 <?php namespace Klb\Core\Mail;
 
-use Kalbe\Model\MailTemplate;
-use Kalbe\Worker\QueueMailWorker;
+use Klb\Core\Model\MailTemplate;
+use Klb\Core\Queue\QueueMailWorker;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 /**
  * Class Queue

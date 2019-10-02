@@ -4,10 +4,10 @@
  * Class Task
  *
  * @package App
- * @property \Danzabar\CLI\Tools\ParamBag $argument
- * @property \Danzabar\CLI\Input\InputOption $option
+ * @property \Danzabar\CLI\Tools\ParamBag      $argument
+ * @property \Danzabar\CLI\Input\InputOption   $option
  * @method \Phalcon\DiInterface getDI()
- * @property \Phalcon\Queue\Beanstalk $queue
+ * @property \Phalcon\Queue\Beanstalk          $queue
  * @property \Klb\Core\Solr\ConnectionContract $solr
  */
 class Task extends \Danzabar\CLI\Tasks\Task
@@ -57,21 +57,22 @@ class Task extends \Danzabar\CLI\Tasks\Task
     }
 
     /**
-     * @param $string
+     * @param      $string
      * @param null $foregroundColor
      * @param null $backgroundColor
+     *
      * @return string
      */
-    public function getColoredString($string, $foregroundColor = null, $backgroundColor = null)
+    public function getColoredString( $string, $foregroundColor = null, $backgroundColor = null )
     {
         $coloredString = "";
 
         // Check if given foreground color found
-        if (isset($this->foregroundColors[$foregroundColor])) {
+        if ( isset( $this->foregroundColors[$foregroundColor] ) ) {
             $coloredString .= "\033[" . $this->foregroundColors[$foregroundColor] . "m";
         }
         // Check if given background color found
-        if (isset($this->backgroundColors[$backgroundColor])) {
+        if ( isset( $this->backgroundColors[$backgroundColor] ) ) {
             $coloredString .= "\033[" . $this->backgroundColors[$backgroundColor] . "m";
         }
 
@@ -84,13 +85,13 @@ class Task extends \Danzabar\CLI\Tasks\Task
     // Returns all foreground color names
     public function getForegroundColors()
     {
-        return array_keys($this->foregroundColors);
+        return array_keys( $this->foregroundColors );
     }
 
     // Returns all background color names
     public function getBackgroundColors()
     {
-        return array_keys($this->backgroundColors);
+        return array_keys( $this->backgroundColors );
     }
 
     /**
@@ -103,7 +104,7 @@ class Task extends \Danzabar\CLI\Tasks\Task
      */
     protected function getModelManager()
     {
-        return $this->getDI()->get('modelsManager');
+        return $this->getDI()->get( 'modelsManager' );
     }
 
     /**
@@ -111,7 +112,7 @@ class Task extends \Danzabar\CLI\Tasks\Task
      */
     protected function getDb()
     {
-        return $this->getDI()->get('db');
+        return $this->getDI()->get( 'db' );
     }
 
     /**
@@ -119,17 +120,18 @@ class Task extends \Danzabar\CLI\Tasks\Task
      */
     protected function getLog()
     {
-        return $this->getDI()->get('logger');
+        return $this->getDI()->get( 'logger' );
     }
 
     /**
      * @param $prefixLog
+     *
      * @return $this
      */
-    protected function setPrefixLog($prefixLog)
+    protected function setPrefixLog( $prefixLog )
     {
         $this->prefixLog = $prefixLog;
-        if (!empty($this->prefixLog)) {
+        if ( !empty( $this->prefixLog ) ) {
             $this->prefixLog .= "\t";
         }
 
@@ -147,52 +149,52 @@ class Task extends \Danzabar\CLI\Tasks\Task
     /**
      * @param $message
      */
-    public function comment($message)
+    public function comment( $message )
     {
-        $this->_out($message);
+        $this->_out( $message );
     }
 
     /**
      * @param $message
      */
-    public function error($message)
+    public function error( $message )
     {
-        $this->_out($message, 'Error');
+        $this->_out( $message, 'Error' );
     }
 
     /**
      * @param $message
      */
-    public function info($message)
+    public function info( $message )
     {
-        $this->_out($message, 'Info');
+        $this->_out( $message, 'Info' );
     }
 
     /**
      * @param $message
      */
-    public function question($message)
+    public function question( $message )
     {
-        $this->_out($message, 'Question');
+        $this->_out( $message, 'Question' );
     }
 
     /**
-     * @param $message
+     * @param        $message
      * @param string $type
      */
-    protected function _out($message, $type = 'Comment')
+    protected function _out( $message, $type = 'Comment' )
     {
-        $this->output->writeln("<$type>" . $this->getPrefixLog() . $message . "</$type>");
+        $this->output->writeln( "<$type>" . $this->getPrefixLog() . $message . "</$type>" );
     }
 
     /**
-     * @param $message
+     * @param        $message
      * @param string $type
      */
-    public function logger($message, $type = 'debug')
+    public function logger( $message, $type = 'debug' )
     {
-        $this->getOutput()->writeln($this->getPrefixLog() . $message);
-        $this->getLog()->$type($this->getPrefixLog() . $message);
+        $this->getOutput()->writeln( $this->getPrefixLog() . $message );
+        $this->getLog()->$type( $this->getPrefixLog() . $message );
     }
 
     /**
@@ -201,7 +203,7 @@ class Task extends \Danzabar\CLI\Tasks\Task
     protected function startTime()
     {
         // Set the start time
-        $this->startTime = microtime(true);
+        $this->startTime = microtime( true );
     }
 
     /**
@@ -210,23 +212,24 @@ class Task extends \Danzabar\CLI\Tasks\Task
     protected function endTime()
     {
         // Set the start time
-        $this->elapsed = microtime(true) - $this->startTime;
-        $this->info("FINISH ... " . $this->elapsedTime() . " " . date('Y-m-d H:i:s'));
+        $this->elapsed = microtime( true ) - $this->startTime;
+        $this->info( "FINISH ... " . $this->elapsedTime() . " " . date( 'Y-m-d H:i:s' ) );
     }
 
     /**
      * @param int $precision
+     *
      * @return string
      */
-    private function elapsedTime($precision = 2)
+    private function elapsedTime( $precision = 2 )
     {
         $time = $this->elapsed;
         $a = [ 'decade' => 315576000, 'year' => 31557600, 'month' => 2629800, 'week' => 604800, 'day' => 86400, 'hour' => 3600, 'min' => 60, 'sec' => 1 ];
         $i = 0;
         $result = '';
-        foreach ($a as $k => $v) {
-            $$k = floor($time / $v);
-            if ($$k) $i++;
+        foreach ( $a as $k => $v ) {
+            $$k = floor( $time / $v );
+            if ( $$k ) $i++;
             $time = $i >= $precision ? 0 : $time - $$k * $v;
             $s = $$k > 1 ? 's' : '';
             $$k = $$k ? $$k . ' ' . $k . $s . ' ' : '';
@@ -239,7 +242,8 @@ class Task extends \Danzabar\CLI\Tasks\Task
     /**
      * @return \Danzabar\CLI\Tasks\Helpers\Confirmation
      */
-    protected function getHelperConfirmation(){
-        return $this->helpers->load('confirm');
+    protected function getHelperConfirmation()
+    {
+        return $this->helpers->load( 'confirm' );
     }
 }

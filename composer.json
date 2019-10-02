@@ -4,7 +4,11 @@
     "autoload": {
         "psr-4": {
             "Klb\\Core\\": "src/"
-        }
+        },
+        "files": [
+            "src/helpers.php",
+            "src/functions.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -15,6 +19,9 @@
         "ext-ftp": "*",
         "ext-json": "*",
         "ext-intl": "*",
+        "ext-curl": "*",
+        "ext-pdo": "*",
+        "ext-mbstring": "*",
         "ext-phalcon": "^3.4",
         "danzabar/phalcon-cli": "^1.0",
         "swiftmailer/swiftmailer": "^5.4",

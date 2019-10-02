@@ -5,7 +5,6 @@ use Phalcon\Forms\Element;
 use Phalcon\Validation\Validator\Identical;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Date as DateValidator;
-use function strpos;
 
 /**
  * Class Form
