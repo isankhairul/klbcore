@@ -1,4 +1,30 @@
 {
-    "name": "klb/core",
-    "require": {}
+    "name": "KLBers/klbcore",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Klb\\Core\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "ext-ftp": "*",
+        "ext-json": "*",
+        "ext-intl": "*",
+        "ext-phalcon": "^3.4",
+        "danzabar/phalcon-cli": "^1.0",
+        "swiftmailer/swiftmailer": "^5.4",
+        "jmhobbs/swiftmailer-transport-aws-ses": "^0.9.2",
+        "mike42/escpos-php": "^1.6",
+        "phpunit/phpunit": "^6.4",
+        "phalcon/incubator": "^3.2",
+        "phalcon/dd": "^1.1",
+        "league/csv": "^9.3",
+        "phpoffice/phpspreadsheet": "^1.9",
+        "matthiasmullie/minify": "^1.3"
+    }
 }
