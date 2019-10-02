@@ -1,14 +1,23 @@
 <?php namespace Klb\Core;
 
+use Danzabar\CLI\Input\InputOption;
+use Danzabar\CLI\Tasks\Helpers\Confirmation;
+use Danzabar\CLI\Tools\ParamBag;
+use Klb\Core\Solr\ConnectionContract;
+use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phalcon\DiInterface;
+use Phalcon\Mvc\Model\ManagerInterface;
+use Phalcon\Queue\Beanstalk;
+
 /**
  * Class Task
  *
  * @package App
- * @property \Danzabar\CLI\Tools\ParamBag      $argument
- * @property \Danzabar\CLI\Input\InputOption   $option
- * @method \Phalcon\DiInterface getDI()
- * @property \Phalcon\Queue\Beanstalk          $queue
- * @property \Klb\Core\Solr\ConnectionContract $solr
+ * @property ParamBag      $argument
+ * @property InputOption   $option
+ * @method DiInterface getDI()
+ * @property Beanstalk          $queue
+ * @property ConnectionContract $solr
  */
 class Task extends \Danzabar\CLI\Tasks\Task
 {
@@ -25,6 +34,10 @@ class Task extends \Danzabar\CLI\Tasks\Task
     private $startTime;
 
     private $elapsed;
+    /**
+     * @var string
+     */
+    private $prefixLog = '';
 
     public function initialize()
     {
@@ -56,6 +69,8 @@ class Task extends \Danzabar\CLI\Tasks\Task
         $this->backgroundColors['light_gray'] = '47';
     }
 
+    // Returns all foreground color names
+
     /**
      * @param      $string
      * @param null $foregroundColor
@@ -82,45 +97,41 @@ class Task extends \Danzabar\CLI\Tasks\Task
         return $coloredString;
     }
 
-    // Returns all foreground color names
+    // Returns all background color names
+
     public function getForegroundColors()
     {
         return array_keys( $this->foregroundColors );
     }
 
-    // Returns all background color names
     public function getBackgroundColors()
     {
         return array_keys( $this->backgroundColors );
     }
 
     /**
-     * @var string
+     * @param $message
      */
-    private $prefixLog = '';
-
-    /**
-     * @return \Phalcon\Mvc\Model\ManagerInterface
-     */
-    protected function getModelManager()
+    public function comment( $message )
     {
-        return $this->getDI()->get( 'modelsManager' );
+        $this->_out( $message );
     }
 
     /**
-     * @return \Phalcon\Db\Adapter\Pdo\Mysql
+     * @param        $message
+     * @param string $type
      */
-    protected function getDb()
+    protected function _out( $message, $type = 'Comment' )
     {
-        return $this->getDI()->get( 'db' );
+        $this->output->writeln( "<$type>" . $this->getPrefixLog() . $message . "</$type>" );
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    protected function getLog()
+    public function getPrefixLog()
     {
-        return $this->getDI()->get( 'logger' );
+        return $this->prefixLog;
     }
 
     /**
@@ -139,35 +150,11 @@ class Task extends \Danzabar\CLI\Tasks\Task
     }
 
     /**
-     * @return string
-     */
-    public function getPrefixLog()
-    {
-        return $this->prefixLog;
-    }
-
-    /**
-     * @param $message
-     */
-    public function comment( $message )
-    {
-        $this->_out( $message );
-    }
-
-    /**
      * @param $message
      */
     public function error( $message )
     {
         $this->_out( $message, 'Error' );
-    }
-
-    /**
-     * @param $message
-     */
-    public function info( $message )
-    {
-        $this->_out( $message, 'Info' );
     }
 
     /**
@@ -182,19 +169,34 @@ class Task extends \Danzabar\CLI\Tasks\Task
      * @param        $message
      * @param string $type
      */
-    protected function _out( $message, $type = 'Comment' )
-    {
-        $this->output->writeln( "<$type>" . $this->getPrefixLog() . $message . "</$type>" );
-    }
-
-    /**
-     * @param        $message
-     * @param string $type
-     */
     public function logger( $message, $type = 'debug' )
     {
         $this->getOutput()->writeln( $this->getPrefixLog() . $message );
         $this->getLog()->$type( $this->getPrefixLog() . $message );
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function getLog()
+    {
+        return $this->getDI()->get( 'logger' );
+    }
+
+    /**
+     * @return ManagerInterface
+     */
+    protected function getModelManager()
+    {
+        return $this->getDI()->get( 'modelsManager' );
+    }
+
+    /**
+     * @return Mysql
+     */
+    protected function getDb()
+    {
+        return $this->getDI()->get( 'db' );
     }
 
     /**
@@ -214,6 +216,14 @@ class Task extends \Danzabar\CLI\Tasks\Task
         // Set the start time
         $this->elapsed = microtime( true ) - $this->startTime;
         $this->info( "FINISH ... " . $this->elapsedTime() . " " . date( 'Y-m-d H:i:s' ) );
+    }
+
+    /**
+     * @param $message
+     */
+    public function info( $message )
+    {
+        $this->_out( $message, 'Info' );
     }
 
     /**
@@ -240,7 +250,7 @@ class Task extends \Danzabar\CLI\Tasks\Task
     }
 
     /**
-     * @return \Danzabar\CLI\Tasks\Helpers\Confirmation
+     * @return Confirmation
      */
     protected function getHelperConfirmation()
     {

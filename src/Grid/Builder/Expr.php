@@ -19,9 +19,9 @@ class Expr
      *
      * @param string $expression The string containing a SQL expression.
      */
-    public function __construct($expression)
+    public function __construct( $expression )
     {
-        $this->_expression = (string)$expression;
+        $this->_expression = (string) $expression;
     }
 
     /**

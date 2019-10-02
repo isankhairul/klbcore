@@ -1,18 +1,22 @@
 <?php namespace Klb\Core\Assets\Filter;
+
 use Phalcon\Assets\FilterInterface;
 
 /**
  * Class Scss
+ *
  * @package Klb\Core\Assets\Filter
  */
-class Scss implements FilterInterface {
+class Scss implements FilterInterface
+{
     /**
      * Filters the content returning a string with the filtered content
      *
      * @param string $content
+     *
      * @return string
      */
-    public function filter($content)
+    public function filter( $content )
     {
         return $content;
     }

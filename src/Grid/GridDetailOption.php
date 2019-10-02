@@ -10,6 +10,18 @@ class GridDetailOption
     private $url;
 
     private $params;
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'url'    => $this->getUrl(),
+            'params' => $this->getParams(),
+        ];
+    }
+
     /**
      * @return mixed
      */
@@ -20,9 +32,10 @@ class GridDetailOption
 
     /**
      * @param mixed $url
+     *
      * @return GridDetailOption
      */
-    public function setUrl($url)
+    public function setUrl( $url )
     {
         $this->url = $url;
 
@@ -39,22 +52,13 @@ class GridDetailOption
 
     /**
      * @param mixed $params
+     *
      * @return GridDetailOption
      */
-    public function setParams($params)
+    public function setParams( $params )
     {
         $this->params = $params;
 
         return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray(){
-        return [
-            'url' => $this->getUrl(),
-            'params' => $this->getParams(),
-        ];
     }
 }

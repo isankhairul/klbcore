@@ -2,9 +2,11 @@
 
 /**
  * Interface Listener
+ *
  * @package Klb\Core\Event\Contract
  */
-interface Listener {
+interface Listener
+{
 
     /**
      * @return string

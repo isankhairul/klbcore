@@ -1,6 +1,9 @@
 <?php namespace Klb\Core\Queue;
 
 use Closure;
+use Exception;
+use Klb\Core\Task;
+use Phalcon\Mvc\Model\Transaction\Failed;
 
 /**
  * Class WorkerOptions
@@ -59,31 +62,34 @@ abstract class WorkerOptions
      */
     public $callback;
     /**
-     * @var \Klb\Core\Task
+     * @var Task
      */
     public $task;
-
-    /**
-     * @throws \Exception
-     * @throws \Phalcon\Mvc\Model\Transaction\Failed
-     * @param ProcessJob $job
-     * @return Closure
-     */
-    abstract public function fire(ProcessJob $job);
 
     /**
      * Get tube name
      *
      * @return string
      */
-    public static function getTubeName(){
+    public static function getTubeName()
+    {
         return 'default';
     }
 
     /**
+     * @param ProcessJob $job
+     *
+     * @return Closure
+     * @throws Exception
+     * @throws Failed
+     */
+    abstract public function fire( ProcessJob $job );
+
+    /**
      * @return string
      */
-    public function getType(){
+    public function getType()
+    {
         return self::TYPE_DAEMON;
     }
 }

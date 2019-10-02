@@ -1,6 +1,10 @@
 <?php
 
 use Phalcon\Debug\Dump;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 defined( 'BASE' ) or define( 'BASE', dirname( __FILE__ . '/../../../../' ) );
 defined( 'BASE_APP' ) or define( 'BASE_APP', BASE . '/app' );
@@ -175,8 +179,8 @@ if ( !function_exists( 'array_build' ) ) {
     /**
      * Build a new array using a callback.
      *
-     * @param array    $array
-     * @param \Closure $callback
+     * @param array   $array
+     * @param Closure $callback
      *
      * @return array
      */
@@ -279,9 +283,9 @@ if ( !function_exists( 'array_first' ) ) {
     /**
      * Return the first element in an array passing a given truth test.
      *
-     * @param array    $array
-     * @param \Closure $callback
-     * @param mixed    $default
+     * @param array   $array
+     * @param Closure $callback
+     * @param mixed   $default
      *
      * @return mixed
      */
@@ -299,9 +303,9 @@ if ( !function_exists( 'array_last' ) ) {
     /**
      * Return the last element in an array passing a given truth test.
      *
-     * @param array    $array
-     * @param \Closure $callback
-     * @param mixed    $default
+     * @param array   $array
+     * @param Closure $callback
+     * @param mixed   $default
      *
      * @return mixed
      */
@@ -527,8 +531,8 @@ if ( !function_exists( 'array_where' ) ) {
     /**
      * Filter the array using the given Closure.
      *
-     * @param array    $array
-     * @param \Closure $callback
+     * @param array   $array
+     * @param Closure $callback
      *
      * @return array
      */
@@ -879,7 +883,7 @@ if ( !function_exists( 'str_random' ) ) {
      *
      * @return string
      *
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     function str_random( $length = 16 )
     {
@@ -1290,9 +1294,9 @@ if ( !function_exists( 'first' ) ) {
     /**
      * Return the first element in an array passing a given truth test.
      *
-     * @param array    $array
-     * @param \Closure $callback
-     * @param mixed    $default
+     * @param array   $array
+     * @param Closure $callback
+     * @param mixed   $default
      *
      * @return mixed
      */
@@ -1340,7 +1344,7 @@ if ( !function_exists( 'forget' ) ) {
 
 if ( !function_exists( 'excel_format' ) ) {
     /**
-     * @param \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $sheet
+     * @param Worksheet $sheet
      * @param                                               $format
      * @param                                               $pCellCoordinate
      * @param                                               $value
@@ -1348,18 +1352,18 @@ if ( !function_exists( 'excel_format' ) ) {
      * @return void
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    function excel_format( \PhpOffice\PhpSpreadsheet\Worksheet\Worksheet $sheet, $format, $pCellCoordinate, $value )
+    function excel_format( Worksheet $sheet, $format, $pCellCoordinate, $value )
     {
         $sheet->getStyle( $pCellCoordinate )->getFont()->setSize( 9 );
         switch ( $format ) {
             case 'date':
-                if ( \is_date( $value ) ) {
+                if ( is_date( $value ) ) {
                     $sheet->getStyle( $pCellCoordinate )
                         ->getNumberFormat()
-                        ->setFormatCode( \PhpOffice\PhpSpreadsheet\Style\NumberFormat::FORMAT_DATE_DDMMYYYY );
+                        ->setFormatCode( NumberFormat::FORMAT_DATE_DDMMYYYY );
                     $sheet->getStyle( $pCellCoordinate )
-                        ->getAlignment()->setHorizontal( \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER );
-                    $value = \PhpOffice\PhpSpreadsheet\Shared\Date::PHPToExcel( $value );
+                        ->getAlignment()->setHorizontal( Alignment::HORIZONTAL_CENTER );
+                    $value = Date::PHPToExcel( $value );
                     $sheet->setCellValue( $pCellCoordinate, $value );
                 } else {
                     $sheet->setCellValue( $pCellCoordinate, '-' );
@@ -1370,20 +1374,20 @@ if ( !function_exists( 'excel_format' ) ) {
                     ->getNumberFormat()
                     ->setFormatCode( '[$Rp-421]#,##0.00;[RED]-[$Rp-421]#,##0.00' );
                 $sheet->getStyle( $pCellCoordinate )
-                    ->getAlignment()->setHorizontal( \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT );
+                    ->getAlignment()->setHorizontal( Alignment::HORIZONTAL_RIGHT );
                 $sheet->setCellValue( $pCellCoordinate, $value );
                 break;
             case 'qty_pack':
                 $sheet->getStyle( $pCellCoordinate )
-                    ->getAlignment()->setHorizontal( \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT );
-                $sheet->setCellValue( $pCellCoordinate, \intval( $value ) . ' Pack' );
+                    ->getAlignment()->setHorizontal( Alignment::HORIZONTAL_RIGHT );
+                $sheet->setCellValue( $pCellCoordinate, intval( $value ) . ' Pack' );
                 break;
             case 'qty_kg':
             case 'qty_pick':
             case 'qty_ship':
                 $sheet->getStyle( $pCellCoordinate )
-                    ->getAlignment()->setHorizontal( \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT );
-                $sheet->setCellValue( $pCellCoordinate, \intval( $value ) . ' Kg' );
+                    ->getAlignment()->setHorizontal( Alignment::HORIZONTAL_RIGHT );
+                $sheet->setCellValue( $pCellCoordinate, intval( $value ) . ' Kg' );
                 break;
             case 'link':
                 $sheet->getCell( $pCellCoordinate )
@@ -1399,11 +1403,11 @@ if ( !function_exists( 'excel_format' ) ) {
                 break;
             case 'boolean':
                 $sheet->getStyle( $pCellCoordinate )
-                    ->getAlignment()->setHorizontal( \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER );
-                $sheet->setCellValue( $pCellCoordinate, ( \intval( $value ) === 1 || \in_array( \strtolower( $value ), [ 'y', 'yes', 'on' ] ) ) ? 'Yes' : 'No' );
+                    ->getAlignment()->setHorizontal( Alignment::HORIZONTAL_CENTER );
+                $sheet->setCellValue( $pCellCoordinate, ( intval( $value ) === 1 || in_array( strtolower( $value ), [ 'y', 'yes', 'on' ] ) ) ? 'Yes' : 'No' );
                 break;
             default:
-                if ( $format && \function_exists( $format ) ) {
+                if ( $format && function_exists( $format ) ) {
                     $value = $format( $value );
                 }
                 $sheet->setCellValue( $pCellCoordinate, $value );

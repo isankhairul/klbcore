@@ -1,16 +1,20 @@
 <?php
 
 
+use App\PrettyDateTime;
+use Phalcon\Di;
+use Phalcon\DiInterface;
+
 if ( !defined( '_HELPER_FUNCTIONS_' ) ) {
     define( '_HELPER_FUNCTIONS_', true );
     /**
      * @param null $alias
      *
-     * @return \Phalcon\DiInterface
+     * @return DiInterface
      */
     function di( $alias = null )
     {
-        $default = \Phalcon\Di::getDefault();
+        $default = Di::getDefault();
 
         if ( is_string( $alias ) ) {
             return $default->get( $alias );
@@ -311,8 +315,8 @@ HTML;
             return null;
         }
         try {
-            return \App\PrettyDateTime::parse( new \DateTime( $date ) );
-        } catch ( \Exception $e ) {
+            return PrettyDateTime::parse( new DateTime( $date ) );
+        } catch ( Exception $e ) {
 
         }
 
@@ -433,7 +437,7 @@ HTML;
     function clean_ascii( $string, array $replace = [] )
     {
         if ( !extension_loaded( 'iconv' ) or !extension_loaded( 'mbstring' ) ) {
-            throw new \Exception( 'iconv or mbstring module not loaded' );
+            throw new Exception( 'iconv or mbstring module not loaded' );
         }
         // Save the old locale and set the new locale to UTF-8
         $oldLocale = setlocale( LC_ALL, '0' );
@@ -611,12 +615,12 @@ HTML;
             mkdir( $dest, 0755, true );
         }
 
-        $iterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator(
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator(
                 $source,
-                \RecursiveDirectoryIterator::SKIP_DOTS
+                RecursiveDirectoryIterator::SKIP_DOTS
             ),
-            \RecursiveIteratorIterator::SELF_FIRST
+            RecursiveIteratorIterator::SELF_FIRST
         );
 
         foreach ( $iterator as $item ) {
@@ -720,7 +724,7 @@ HTML;
      */
     function recursive_rmdir( $dir )
     {
-        $iterator = new RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $dir, \FilesystemIterator::SKIP_DOTS ), \RecursiveIteratorIterator::CHILD_FIRST );
+        $iterator = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir, FilesystemIterator::SKIP_DOTS ), RecursiveIteratorIterator::CHILD_FIRST );
         foreach ( $iterator as $filename => $fileInfo ) {
             if ( $fileInfo->isDir() ) {
                 rmdir( $filename );
@@ -736,7 +740,7 @@ HTML;
      */
     function recursive_rmfile( $dir, array $extension = [] )
     {
-        $iterator = new RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $dir, \FilesystemIterator::SKIP_DOTS ), \RecursiveIteratorIterator::CHILD_FIRST );
+        $iterator = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir, FilesystemIterator::SKIP_DOTS ), RecursiveIteratorIterator::CHILD_FIRST );
         $countExt = count( $extension );
         foreach ( $iterator as $filename => $fileInfo ) {
             if ( !$fileInfo->isDir() && '.' !== substr( $fileInfo->getFilename(), 0, 1 ) && ( $countExt === 0 || ( $countExt > 0 && in_array( $fileInfo->getExtension(), $extension ) ) ) ) {
@@ -752,7 +756,7 @@ HTML;
      */
     function recursive_copy_file( $dir, $target, array $extension = [] )
     {
-        $iterator = new RecursiveIteratorIterator( new \RecursiveDirectoryIterator( $dir, \FilesystemIterator::SKIP_DOTS ), \RecursiveIteratorIterator::CHILD_FIRST );
+        $iterator = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir, FilesystemIterator::SKIP_DOTS ), RecursiveIteratorIterator::CHILD_FIRST );
         $countExt = count( $extension );
         foreach ( $iterator as $filename => $fileInfo ) {
             if ( !$fileInfo->isDir() && '.' !== substr( $fileInfo->getFilename(), 0, 1 ) && ( $countExt === 0 || ( $countExt > 0 && in_array( $fileInfo->getExtension(), $extension ) ) ) ) {

@@ -43,10 +43,10 @@ class ProcessJob
     /**
      * ProcessJob constructor.
      *
-     * @param Job $job
+     * @param Job    $job
      * @param string $queue
      */
-    public function __construct(Job $job, $queue)
+    public function __construct( Job $job, $queue )
     {
         $this->job = $job;
         $this->queue = $queue;
@@ -64,34 +64,15 @@ class ProcessJob
     }
 
     /**
-     * Determine if the job has been deleted.
-     *
-     * @return bool
-     */
-    public function isDeleted()
-    {
-        return $this->deleted;
-    }
-
-    /**
      * Release the job back into the queue.
      *
-     * @param  int   $delay
+     * @param int $delay
+     *
      * @return void
      */
-    public function release($delay = 0)
+    public function release( $delay = 0 )
     {
         $this->released = true;
-    }
-
-    /**
-     * Determine if the job was released back into the queue.
-     *
-     * @return bool
-     */
-    public function isReleased()
-    {
-        return $this->released;
     }
 
     /**
@@ -102,6 +83,26 @@ class ProcessJob
     public function isDeletedOrReleased()
     {
         return $this->isDeleted() || $this->isReleased();
+    }
+
+    /**
+     * Determine if the job has been deleted.
+     *
+     * @return bool
+     */
+    public function isDeleted()
+    {
+        return $this->deleted;
+    }
+
+    /**
+     * Determine if the job was released back into the queue.
+     *
+     * @return bool
+     */
+    public function isReleased()
+    {
+        return $this->released;
     }
 
     /**
@@ -125,6 +126,28 @@ class ProcessJob
     }
 
     /**
+     * Get the number of times to attempt a job.
+     *
+     * @return int|null
+     */
+    public function maxTries()
+    {
+        return $this->get( 'maxTries' );
+    }
+
+    /**
+     * @param      $key
+     * @param null $default
+     *
+     * @return mixed|null
+     */
+    public function get( $key, $default = null )
+    {
+        $payload = $this->payload();
+        return isset( $payload[$key] ) ? $payload[$key] : $default;
+    }
+
+    /**
      * Get the decoded body of the job.
      *
      * @return array
@@ -135,33 +158,13 @@ class ProcessJob
     }
 
     /**
-     * Get the number of times to attempt a job.
-     *
-     * @return int|null
-     */
-    public function maxTries()
-    {
-        return $this->get('maxTries');
-    }
-
-    /**
-     * @param $key
-     * @param null $default
-     * @return mixed|null
-     */
-    public function get($key, $default = null){
-        $payload = $this->payload();
-        return isset($payload[$key]) ? $payload[$key] : $default;
-    }
-
-    /**
      * Get the number of seconds the job can run.
      *
      * @return int|null
      */
     public function timeout()
     {
-        return $this->get('timeout');
+        return $this->get( 'timeout' );
     }
 
     /**
@@ -171,7 +174,7 @@ class ProcessJob
      */
     public function timeoutAt()
     {
-        return $this->get('timeoutAt');
+        return $this->get( 'timeoutAt' );
     }
 
     /**
@@ -183,11 +186,12 @@ class ProcessJob
     {
         $stats = $this->job->stats();
 
-        if(is_array($stats) && isset($stats['reserves'])){
+        if ( is_array( $stats ) && isset( $stats['reserves'] ) ) {
             return (int) $stats['reserves'];
         }
-        return isset($stats->reserves) ? (int) $stats->reserves : 0;
+        return isset( $stats->reserves ) ? (int) $stats->reserves : 0;
     }
+
     /**
      * Get the name of the queue the job belongs to.
      *

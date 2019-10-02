@@ -22,6 +22,14 @@ class QueueMailWorker extends WorkerOptions
     /**
      * @inheritDoc
      */
+    public static function getTubeName()
+    {
+        return 'queue_mails';
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function fire( ProcessJob $job )
     {
 
@@ -34,14 +42,6 @@ class QueueMailWorker extends WorkerOptions
         Queue::of( !empty( $data['code'] ) ? $data['code'] : null )
             ->send( $data );
 
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function getTubeName()
-    {
-        return 'queue_mails';
     }
 }
 

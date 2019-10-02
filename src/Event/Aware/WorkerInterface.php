@@ -10,7 +10,8 @@ interface WorkerInterface
      * @param $type
      * @param $job
      * @param $e
+     *
      * @return mixed
      */
-    public function dispatch($type, $job, $e = null);
+    public function dispatch( $type, $job, $e = null );
 }

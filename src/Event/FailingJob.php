@@ -1,5 +1,7 @@
 <?php namespace Klb\Core\Event;
 
+use Exception;
+use Klb\Core\Event\Aware\WorkerInterface;
 use Klb\Core\Queue\ManuallyFailedException;
 use Klb\Core\Queue\ProcessJob;
 
@@ -14,16 +16,17 @@ class FailingJob
     /**
      * Delete the job, call the "failed" method, and raise the failed job event.
      *
-     * @param  ProcessJob  $job
-     * @param  \Exception $e
+     * @param ProcessJob $job
+     * @param Exception $e
+     *
      * @return void
      */
-    public static function handle($job, $e = null)
+    public static function handle( $job, $e = null )
     {
 
         $job->markAsFailed();
 
-        if ($job->isDeleted()) {
+        if ( $job->isDeleted() ) {
             return;
         }
 
@@ -33,7 +36,7 @@ class FailingJob
             // to allow every developer to better keep monitor of their failed queue jobs.
             $job->delete();
         } finally {
-            static::events()->dispatch(WorkerListener::FAILED,
+            static::events()->dispatch( WorkerListener::FAILED,
                 $job, $e ?: new ManuallyFailedException
             );
         }
@@ -42,10 +45,10 @@ class FailingJob
     /**
      * Get the event dispatcher instance.
      *
-     * @return \Klb\Core\Event\Aware\WorkerInterface
+     * @return WorkerInterface
      */
     protected static function events()
     {
-        return di()->get('workerQueueEvent');
+        return di()->get( 'workerQueueEvent' );
     }
 }

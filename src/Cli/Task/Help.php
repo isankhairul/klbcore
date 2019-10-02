@@ -23,6 +23,7 @@ class Help extends Task
      * @var string
      */
     protected $description = 'Returns a list of commands and helpful guide to running them....';
+
     /**
      * The main action
      *
@@ -40,6 +41,7 @@ class Help extends Task
         // Command List
         $this->listCommands();
     }
+
     /**
      * Prints the app name and version
      *
@@ -47,14 +49,14 @@ class Help extends Task
      */
     public function printApplicationDetails()
     {
-        $this->getOutput()->writeln($this->console->getName());
+        $this->getOutput()->writeln( $this->console->getName() );
 
-        if (!is_null($this->console->getVersion())) {
-            $this->getOutput()->writeln('version '.$this->console->getVersion());
+        if ( !is_null( $this->console->getVersion() ) ) {
+            $this->getOutput()->writeln( 'version ' . $this->console->getVersion() );
         }
 
         // New line padding
-        $this->getOutput()->writeln('');
+        $this->getOutput()->writeln( '' );
     }
 
     /**
@@ -64,11 +66,11 @@ class Help extends Task
      */
     public function printApplicationInstructions()
     {
-        $this->getOutput()->writeln($this->getColoredString('Usage:', 'brown'));
-        $this->getOutput()->writeln("\tphp cli command [arguments] [options]");
+        $this->getOutput()->writeln( $this->getColoredString( 'Usage:', 'brown' ) );
+        $this->getOutput()->writeln( "\tphp cli command [arguments] [options]" );
 
         // Padding
-        $this->getOutput()->writeln('');
+        $this->getOutput()->writeln( '' );
     }
 
     /**
@@ -78,30 +80,30 @@ class Help extends Task
      */
     public function listCommands()
     {
-        $this->getOutput()->writeln($this->getColoredString("Available commands:\n", 'brown'));
+        $this->getOutput()->writeln( $this->getColoredString( "Available commands:\n", 'brown' ) );
         $commands = $this->library->getAll();
-        ksort($commands);
-        foreach ($commands as $name => $details) {
-            if($name === 'help') continue;
-            $this->getOutput()->write($this->getColoredString(" " . $name, 'brown'));
-            if(!empty($details['description'])) {
-                $this->getOutput()->writeln(" => " . $this->getColoredString($details['description'], 'purple'));
+        ksort( $commands );
+        foreach ( $commands as $name => $details ) {
+            if ( $name === 'help' ) continue;
+            $this->getOutput()->write( $this->getColoredString( " " . $name, 'brown' ) );
+            if ( !empty( $details['description'] ) ) {
+                $this->getOutput()->writeln( " => " . $this->getColoredString( $details['description'], 'purple' ) );
             } else {
-                $this->getOutput()->writeln('');
+                $this->getOutput()->writeln( '' );
             }
 
-            foreach ($details['actions'] as $action) {
+            foreach ( $details['actions'] as $action ) {
                 $this->getOutput()->writeln(
                     sprintf(
-                        $this->getColoredString("  %s%s", 'green'),
+                        $this->getColoredString( "  %s%s", 'green' ),
                         $name,
-                        ($action !== 'main' ? ":$action" : '')
+                        ( $action !== 'main' ? ":$action" : '' )
                     )
                 );
             }
 
             // Just for padding
-            $this->getOutput()->writeln('');
+            $this->getOutput()->writeln( '' );
         }
     }
 }

@@ -4,6 +4,7 @@ use Phalcon\Mvc\User\Component;
 
 /**
  * Class ParamsParser
+ *
  * @package Klb\Core\Grid
  */
 class ParamsParser extends Component
@@ -23,26 +24,27 @@ class ParamsParser extends Component
 
     /**
      * ParamsParser constructor.
+     *
      * @param $limit
      */
-    public function __construct($limit)
+    public function __construct( $limit )
     {
         $params = [
-            'draw' => null,
-            'start' => 1,
-            'length' => $limit,
-            'columns' => [],
-            'search' => [],
-            'order' => [],
+            'draw'          => null,
+            'start'         => 1,
+            'length'        => $limit,
+            'columns'       => [],
+            'search'        => [],
+            'order'         => [],
             'filter_fields' => []
         ];
-        if($this->di->has('request')) {
-            $request = $this->di->get('request');
+        if ( $this->di->has( 'request' ) ) {
+            $request = $this->di->get( 'request' );
             $requestParams = $request->isPost() ? $request->getPost() : $request->getQuery();
         } else {
             $requestParams = [];
         }
-        $this->params = (array)$requestParams + $params;
+        $this->params = (array) $requestParams + $params;
         $this->setPage();
     }
 
@@ -54,15 +56,15 @@ class ParamsParser extends Component
         return $this->params;
     }
 
-    public function setPage()
-    {
-        $this->page = (int)(floor($this->params['start'] / $this->params['length']) + 1);
-        $this->fetchAssoc = is_numeric($this->getColumnById(0)) ? false : true;
-    }
-
     public function getPage()
     {
         return $this->page;
+    }
+
+    public function setPage()
+    {
+        $this->page = (int) ( floor( $this->params['start'] / $this->params['length'] ) + 1 );
+        $this->fetchAssoc = is_numeric( $this->getColumnById( 0 ) ) ? false : true;
     }
 
     /**
@@ -70,22 +72,22 @@ class ParamsParser extends Component
      */
     public function getColumnsSearch()
     {
-        if(!empty($this->params['action']) && $this->params['action'] === 'filter') {
+        if ( !empty( $this->params['action'] ) && $this->params['action'] === 'filter' ) {
             $this->isFilter = true;
 
-            return array_filter($this->params['filter_fields'], function ($v){
-                if(is_array($v)){
-                    unset($v['type']);
-                    return array_filter($v, function ($v1){
-                        return ''.$v1 !== '';
-                    });
+            return array_filter( $this->params['filter_fields'], function ( $v ) {
+                if ( is_array( $v ) ) {
+                    unset( $v['type'] );
+                    return array_filter( $v, function ( $v1 ) {
+                        return '' . $v1 !== '';
+                    } );
                 }
-                return ''.$v !== '';
-            });
+                return '' . $v !== '';
+            } );
         }
-        return array_filter(array_map(function ($item) {
-            return (isset($item['search']['value']) && strlen($item['search']['value'])) ? $item : null;
-        }, $this->params['columns']));
+        return array_filter( array_map( function ( $item ) {
+            return ( isset( $item['search']['value'] ) && strlen( $item['search']['value'] ) ) ? $item : null;
+        }, $this->params['columns'] ) );
     }
 
 
@@ -94,9 +96,9 @@ class ParamsParser extends Component
      */
     public function getSearchableColumns()
     {
-        return array_filter(array_map(function ($item) {
-            return (isset($item['searchable']) && $item['searchable'] === "true") ? $item['data'] : null;
-        }, $this->params['columns']));
+        return array_filter( array_map( function ( $item ) {
+            return ( isset( $item['searchable'] ) && $item['searchable'] === "true" ) ? $item['data'] : null;
+        }, $this->params['columns'] ) );
     }
 
     public function getDraw()
@@ -119,9 +121,9 @@ class ParamsParser extends Component
         return $this->params['columns'];
     }
 
-    public function getColumnById($id)
+    public function getColumnById( $id )
     {
-        return isset($this->params['columns'][$id]['data']) ? $this->params['columns'][$id]['data'] : null;
+        return isset( $this->params['columns'][$id]['data'] ) ? $this->params['columns'][$id]['data'] : null;
     }
 
     public function getSearch()
@@ -139,7 +141,7 @@ class ParamsParser extends Component
      */
     public function getSearchValue()
     {
-        return isset($this->params['search']['value']) ? $this->params['search']['value'] : '';
+        return isset( $this->params['search']['value'] ) ? $this->params['search']['value'] : '';
     }
 
     /**

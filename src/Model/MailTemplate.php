@@ -1,60 +1,62 @@
 <?php namespace Klb\Core\Model;
 
-use Klb\Core\Model;
+use Phalcon\Mvc\Model;
 
 /**
  * Class MailTemplate
  *
  * @package Klb\Core\Model
  *          SQL:REATE TABLE `mail_template` (
-* `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-* `name` varchar(100) NOT NULL,
-* `code` varchar(100) DEFAULT 'NULL',
-* `type` varchar(100) NOT NULL,
-* `active` tinyint(1) NOT NULL DEFAULT 0,
-* `store_code` varchar(10) DEFAULT NULL,
-* `recipients` varchar(1000) DEFAULT NULL,
-* `sender` varchar(100) NOT NULL,
-* `bcc` varchar(300) DEFAULT NULL,
-* `subject` varchar(100) NOT NULL,
-* `body` text NOT NULL,
-* `variables` text DEFAULT NULL,
-* `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-* `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-* PRIMARY KEY (`id`),
-* UNIQUE KEY `code` (`code`),
-* KEY `name` (`name`),
-* KEY `type` (`type`),
-* KEY `active` (`active`)
-* ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1
+ * `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+ * `name` varchar(100) NOT NULL,
+ * `code` varchar(100) DEFAULT 'NULL',
+ * `type` varchar(100) NOT NULL,
+ * `active` tinyint(1) NOT NULL DEFAULT 0,
+ * `store_code` varchar(10) DEFAULT NULL,
+ * `recipients` varchar(1000) DEFAULT NULL,
+ * `sender` varchar(100) NOT NULL,
+ * `bcc` varchar(300) DEFAULT NULL,
+ * `subject` varchar(100) NOT NULL,
+ * `body` text NOT NULL,
+ * `variables` text DEFAULT NULL,
+ * `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+ * `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+ * PRIMARY KEY (`id`),
+ * UNIQUE KEY `code` (`code`),
+ * KEY `name` (`name`),
+ * KEY `type` (`type`),
+ * KEY `active` (`active`)
+ * ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1
  */
-class MailTemplate extends \Phalcon\Mvc\Model
+class MailTemplate extends Model
 {
     /**
      *
      */
-    public function beforeSave(){
-        if(empty($this->code) && !empty($this->name)){
-            $this->code = slug($this->name);
+    public function beforeSave()
+    {
+        if ( empty( $this->code ) && !empty( $this->name ) ) {
+            $this->code = slug( $this->name );
         }
-        if(!empty($this->store_code) && is_array($this->store_code)){
-            $this->store_code = join(",", $this->store_code);
+        if ( !empty( $this->store_code ) && is_array( $this->store_code ) ) {
+            $this->store_code = join( ",", $this->store_code );
         }
 
-        if(!empty($this->variables) && is_scalar($this->variables)){
-            $this->variables = serialize($this->variables);
+        if ( !empty( $this->variables ) && is_scalar( $this->variables ) ) {
+            $this->variables = serialize( $this->variables );
         }
     }
 
     /**
      *
      */
-    public function afterFetch(){
-        if(is_string($this->store_code)){
-            $this->store_code = explode(",", $this->store_code);
+    public function afterFetch()
+    {
+        if ( is_string( $this->store_code ) ) {
+            $this->store_code = explode( ",", $this->store_code );
         }
-        if(is_string($this->variables)){
-            $this->variables = @unserialize($this->variables);
+        if ( is_string( $this->variables ) ) {
+            $this->variables = @unserialize( $this->variables );
         }
     }
 }

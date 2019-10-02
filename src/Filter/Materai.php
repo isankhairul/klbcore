@@ -15,15 +15,16 @@ class Materai implements UserFilterInterface
 
     /**
      * @param $value
+     *
      * @return int
      */
-    public function filter($value)
+    public function filter( $value )
     {
-        if ($value <= 250000) {
+        if ( $value <= 250000 ) {
             return self::MATERAI_ZERO;
         }
 
-        if ($value > 250000 && $value <= 1000000) {
+        if ( $value > 250000 && $value <= 1000000 ) {
             return self::MATERAI_3000;
         }
 

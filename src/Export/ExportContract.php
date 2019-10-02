@@ -1,7 +1,12 @@
 <?php namespace Klb\Core\Export;
 
+use Exception;
 use Klb\Core\Task;
+use Phalcon\Db\Adapter\Pdo\Mysql;
+use Phalcon\Logger\AdapterInterface;
 use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\ManagerInterface;
+use stdClass;
 
 /**
  * Interface ExportContract
@@ -17,57 +22,64 @@ interface ExportContract
 
     /**
      * @param Task $task
+     *
      * @return ExportContract
      */
-    public function setTask(Task $task);
+    public function setTask( Task $task );
 
     /**
      * @param Model $queueExport
+     *
      * @return ExportContract
      */
-    public function setQueueExport(Model $queueExport);
+    public function setQueueExport( Model $queueExport );
 
     /**
-     * @return \Phalcon\Mvc\Model\ManagerInterface
+     * @return ManagerInterface
      */
     public function getModelManager();
 
     /**
-     * @return \Phalcon\Db\Adapter\Pdo\Mysql
+     * @return Mysql
      */
     public function getDb();
 
     /**
-     * @return \Phalcon\Logger\AdapterInterface
+     * @return AdapterInterface
      */
     public function getLog();
 
     /**
      * Load the Data
-     * @param \stdClass $params
+     *
+     * @param stdClass $params
+     *
      * @return array|void
-     * @throws \Exception
+     * @throws Exception
      */
-    public function loadData($params);
+    public function loadData( $params );
+
     /**
      * Handle of import
      *
-     * @throws \Exception
      * @return boolean
+     * @throws Exception
      */
     public function handle();
+
     /**
      * Handle of success
      *
      * @return $this
      */
     public function onSuccess();
+
     /**
      * Handle of error
      *
      * @return $this
      */
-    public function onError(\Exception $e);
+    public function onError( Exception $e );
 
     /**
      * Get Name of importer

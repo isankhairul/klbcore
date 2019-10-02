@@ -4,43 +4,50 @@ use Phalcon\DiInterface;
 
 /**
  * Interface ConnectionContract
+ *
  * @package Klb\Core\Solr
  */
-interface ConnectionContract {
+interface ConnectionContract
+{
 
     /**
      * Connection constructor.
+     *
      * @param DiInterface $di
      */
-    public function __construct(DiInterface $di = null);
+    public function __construct( DiInterface $di = null );
 
     /**
-     * @param $url
-     * @param array $parameters
+     * @param        $url
+     * @param array  $parameters
      * @param string $method
-     * @param array $headers
+     * @param array  $headers
+     *
      * @return $this
      * @throws SolrException
      */
-    public function call($url, $parameters = null, $method = 'GET', array $headers = [], $noDefaultParams = false);
+    public function call( $url, $parameters = null, $method = 'GET', array $headers = [], $noDefaultParams = false );
 
     /**
-     * @param $collectionName
-     * @param $url
-     * @param null $parameters
+     * @param        $collectionName
+     * @param        $url
+     * @param null   $parameters
      * @param string $method
-     * @param array $headers
-     * @param bool $noDefaultParams
-     * @throws SolrException
+     * @param array  $headers
+     * @param bool   $noDefaultParams
+     *
      * @return mixed
+     * @throws SolrException
      */
-    public function collection($collectionName, $url, $parameters = null, $method = 'GET', array $headers = [], $noDefaultParams = false);
+    public function collection( $collectionName, $url, $parameters = null, $method = 'GET', array $headers = [], $noDefaultParams = false );
 
     /**
      * @param array $params
+     *
      * @return $this
      */
-    public function select(array $params);
+    public function select( array $params );
+
     /**
      * @return array
      */

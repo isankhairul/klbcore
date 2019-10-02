@@ -12,9 +12,10 @@ class PpnJasa implements UserFilterInterface
 
     /**
      * @param $value
+     *
      * @return int
      */
-    public function filter($value)
+    public function filter( $value )
     {
         return $value / 100 * 1;
     }

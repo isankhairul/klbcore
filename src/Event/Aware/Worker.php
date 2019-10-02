@@ -14,12 +14,15 @@ class Worker implements WorkerInterface, EventsAwareInterface
 {
 
     protected $_eventsManager;
+
     /**
-     * @inheritDoc
+     * @param $type
+     * @param $job
+     * @param $e
      */
-    public function setEventsManager(ManagerInterface $eventsManager)
+    public function dispatch( $type, $job, $e = null )
     {
-        $this->_eventsManager = $eventsManager;
+        $this->getEventsManager()->fire( ( new WorkerListener() )->getName() . ':' . $type, $this, compact( 'job', 'e' ) );
     }
 
     /**
@@ -31,11 +34,10 @@ class Worker implements WorkerInterface, EventsAwareInterface
     }
 
     /**
-     * @param $type
-     * @param $job
-     * @param $e
+     * @inheritDoc
      */
-    public function dispatch($type, $job, $e = null){
-        $this->getEventsManager()->fire((new WorkerListener())->getName().':' . $type, $this, compact('job', 'e'));
+    public function setEventsManager( ManagerInterface $eventsManager )
+    {
+        $this->_eventsManager = $eventsManager;
     }
 }

@@ -1,5 +1,6 @@
 <?php namespace Klb\Core\Assets\Filter;
 
+use MatthiasMullie\Minify\JS;
 use Phalcon\Assets\FilterInterface;
 
 /**
@@ -13,13 +14,14 @@ class JsMin implements FilterInterface
      * Filters the content returning a string with the filtered content
      *
      * @param string $content
+     *
      * @return string
      */
-    public function filter($content)
+    public function filter( $content )
     {
 
-        $minifier = new \MatthiasMullie\Minify\JS();
-        $minifier->add($content);
+        $minifier = new JS();
+        $minifier->add( $content );
         return $minifier->minify();
     }
 

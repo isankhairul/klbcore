@@ -10,6 +10,7 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Worksheet\PageSetup;
+use PhpOffice\PhpSpreadsheet\Writer\Exception;
 
 /**
  * Class GridExcel
@@ -84,25 +85,6 @@ class GridExcel
     protected $more = [];
 
     /**
-     * @return string
-     */
-    public function getTitleDocument()
-    {
-        return $this->titleDocument;
-    }
-
-    /**
-     * @param string $titleDocument
-     * @return GridExcel
-     */
-    public function setTitleDocument($titleDocument)
-    {
-        $this->titleDocument = $titleDocument;
-
-        return $this;
-    }
-
-    /**
      * @return array
      */
     public function getColumns()
@@ -112,9 +94,10 @@ class GridExcel
 
     /**
      * @param array $columns
+     *
      * @return GridExcel
      */
-    public function setColumns(array $columns)
+    public function setColumns( array $columns )
     {
         $this->columns = $columns;
 
@@ -131,9 +114,10 @@ class GridExcel
 
     /**
      * @param array $items
+     *
      * @return GridExcel
      */
-    public function setItems(array $items)
+    public function setItems( array $items )
     {
         $this->items = $items;
 
@@ -141,16 +125,17 @@ class GridExcel
     }
 
     /**
-     * @param $name
+     * @param       $name
      * @param array $more
+     *
      * @return $this
      */
-    public function addMore($name, array $more)
+    public function addMore( $name, array $more )
     {
         $this->more[$name] = [
-            'columns' => array_get($more, 'columns', []),
-            'items'   => array_get($more, 'items', []),
-            'title'   => array_get($more, 'title', ''),
+            'columns' => array_get( $more, 'columns', [] ),
+            'items'   => array_get( $more, 'items', [] ),
+            'title'   => array_get( $more, 'title', '' ),
         ];
 
         return $this;
@@ -166,9 +151,10 @@ class GridExcel
 
     /**
      * @param string $filename
+     *
      * @return GridExcel
      */
-    public function setFilename(string $filename)
+    public function setFilename( string $filename )
     {
         $this->filename = $filename;
 
@@ -184,39 +170,27 @@ class GridExcel
     }
 
     /**
-     * @return Spreadsheet
-     */
-    public function getSpreadsheet()
-    {
-        if (null === $this->spreadsheet) {
-            // Create new Spreadsheet object
-            $this->spreadsheet = new Spreadsheet();
-        }
-
-        return $this->spreadsheet;
-    }
-
-    /**
-     * @param null $titleDocument
+     * @param null   $titleDocument
      * @param string $extension
+     *
      * @return $this
      * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws Exception
      */
-    public function generate($titleDocument = null)
+    public function generate( $titleDocument = null )
     {
 
-        if (null !== $titleDocument) {
-            $this->setTitleDocument($titleDocument);
+        if ( null !== $titleDocument ) {
+            $this->setTitleDocument( $titleDocument );
         }
         // Set document properties
         $this->getSpreadsheet()->getActiveSheet()
             ->getPageSetup()
-            ->setOrientation(PageSetup::ORIENTATION_LANDSCAPE);
+            ->setOrientation( PageSetup::ORIENTATION_LANDSCAPE );
         $this->getSpreadsheet()->getActiveSheet()
             ->getPageSetup()
-            ->setPaperSize(PageSetup::PAPERSIZE_A4);
-        $sheet = $this->getSpreadsheet()->setActiveSheetIndex(0);
+            ->setPaperSize( PageSetup::PAPERSIZE_A4 );
+        $sheet = $this->getSpreadsheet()->setActiveSheetIndex( 0 );
         //Set style
         $styleColumn = [
             'font'    => [
@@ -247,44 +221,44 @@ class GridExcel
         ];
         //set header
 
-        $length = sizeof($this->columns);
-        $maxColumnName = Coordinate::stringFromColumnIndex($length);
+        $length = sizeof( $this->columns );
+        $maxColumnName = Coordinate::stringFromColumnIndex( $length );
         $row = 1;
         $mergeCellName = 'A' . $row . ':' . $maxColumnName . $row;
         // Add some data
-        $sheet->mergeCells($mergeCellName);
-        $sheet->getStyle($mergeCellName)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyle($mergeCellName)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->mergeCells( $mergeCellName );
+        $sheet->getStyle( $mergeCellName )->getAlignment()->setHorizontal( Alignment::HORIZONTAL_CENTER );
+        $sheet->getStyle( $mergeCellName )->getAlignment()->setVertical( Alignment::VERTICAL_CENTER );
         $richText = new RichText();
-        $payable = $richText->createTextRun($this->getTitleDocument());
-        $payable->getFont()->setSize(12);
-        $payable->getFont()->setBold(true);
-        $payable->getFont()->setColor(new Color(Color::COLOR_BLACK));
-        $richText->createText('.');
-        $sheet->getCell('A' . $row)->setValue($richText);
-        $sheet->getRowDimension($row)->setRowHeight(30);
+        $payable = $richText->createTextRun( $this->getTitleDocument() );
+        $payable->getFont()->setSize( 12 );
+        $payable->getFont()->setBold( true );
+        $payable->getFont()->setColor( new Color( Color::COLOR_BLACK ) );
+        $richText->createText( '.' );
+        $sheet->getCell( 'A' . $row )->setValue( $richText );
+        $sheet->getRowDimension( $row )->setRowHeight( 30 );
 
         $row++;
         $i = 1;
         $currencyStart = null;
         $columnSUM = [];
-        foreach ($this->columns as $column => $icolumn) {
-            $sheet->setCellValueByColumnAndRow($i, $row, $icolumn['title']);
+        foreach ( $this->columns as $column => $icolumn ) {
+            $sheet->setCellValueByColumnAndRow( $i, $row, $icolumn['title'] );
             $this->columns[$column]['index'] = $i;
-            $this->columns[$column]['name'] = Coordinate::stringFromColumnIndex($i);
-            $align = $sheet->getStyle($this->columns[$column]['name'])->getAlignment();
-            $align->setWrapText(true);
-            $align->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $sheet->getColumnDimension($this->columns[$column]['name'])->setAutoSize(true);
+            $this->columns[$column]['name'] = Coordinate::stringFromColumnIndex( $i );
+            $align = $sheet->getStyle( $this->columns[$column]['name'] )->getAlignment();
+            $align->setWrapText( true );
+            $align->setHorizontal( Alignment::HORIZONTAL_LEFT );
+            $sheet->getColumnDimension( $this->columns[$column]['name'] )->setAutoSize( true );
             // style
-            $styleRow = $sheet->getStyle($this->columns[$column]['name'] . $row);
-            $styleRow->applyFromArray($styleColumn);
-            $styleRow->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-            $styleRow->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            $styleRow = $sheet->getStyle( $this->columns[$column]['name'] . $row );
+            $styleRow->applyFromArray( $styleColumn );
+            $styleRow->getAlignment()->setHorizontal( Alignment::HORIZONTAL_LEFT );
+            $styleRow->getAlignment()->setVertical( Alignment::VERTICAL_CENTER );
             /** Check for currency */
-            if (!empty($icolumn['format'])) {
-                if ($icolumn['format'] === 'currency') {
-                    if (null === $currencyStart) {
+            if ( !empty( $icolumn['format'] ) ) {
+                if ( $icolumn['format'] === 'currency' ) {
+                    if ( null === $currencyStart ) {
                         $currencyStart = $this->columns[$column]['index'];
                     }
                     $columnSUM[] = $this->columns[$column]['name'];
@@ -295,19 +269,19 @@ class GridExcel
         }
         $row++;
         $startItem = $row;
-        if (sizeof($this->items) > 0) {
-            foreach ($this->items as $item) {
-                foreach ($item as $itemName => $itemValue) {
-                    if (!isset($this->columns[$itemName]['index'])) {
+        if ( sizeof( $this->items ) > 0 ) {
+            foreach ( $this->items as $item ) {
+                foreach ( $item as $itemName => $itemValue ) {
+                    if ( !isset( $this->columns[$itemName]['index'] ) ) {
                         continue;
                     }
                     $c = $this->columns[$itemName];
 
-                    if (!empty($c['format'])) {
-                        excel_format($sheet, $c['format'], $c['name'] . $row, $itemValue);
+                    if ( !empty( $c['format'] ) ) {
+                        excel_format( $sheet, $c['format'], $c['name'] . $row, $itemValue );
                     } else {
-                        $sheet->getStyleByColumnAndRow($this->columns[$itemName]['index'], $row)->getFont()->setSize(9);
-                        $sheet->setCellValueByColumnAndRow($this->columns[$itemName]['index'], $row, $itemValue);
+                        $sheet->getStyleByColumnAndRow( $this->columns[$itemName]['index'], $row )->getFont()->setSize( 9 );
+                        $sheet->setCellValueByColumnAndRow( $this->columns[$itemName]['index'], $row, $itemValue );
                     }
                 }
                 $row++;
@@ -315,70 +289,70 @@ class GridExcel
         } else {
             $mergeCellName = 'A' . $row . ':' . $maxColumnName . $row;
             // Add some data
-            $sheet->mergeCells($mergeCellName);
-            $sheet->getStyle($mergeCellName)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            $sheet->getStyle($mergeCellName)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-            $sheet->getCell('A' . $row)->setValue('No Data');
-            $sheet->getStyle('A' . $row)->getFont()
-                ->setSize(9)
-                ->setItalic(true);
+            $sheet->mergeCells( $mergeCellName );
+            $sheet->getStyle( $mergeCellName )->getAlignment()->setHorizontal( Alignment::HORIZONTAL_CENTER );
+            $sheet->getStyle( $mergeCellName )->getAlignment()->setVertical( Alignment::VERTICAL_CENTER );
+            $sheet->getCell( 'A' . $row )->setValue( 'No Data' );
+            $sheet->getStyle( 'A' . $row )->getFont()
+                ->setSize( 9 )
+                ->setItalic( true );
             $row++;
         }
         $endItem = $row;
-        if (count($columnSUM) > 0) {
+        if ( count( $columnSUM ) > 0 ) {
 //            $row++;
-            $currencyStartName = Coordinate::stringFromColumnIndex($currencyStart - 1);
+            $currencyStartName = Coordinate::stringFromColumnIndex( $currencyStart - 1 );
             $mergeCellName = 'A' . $row . ':' . $currencyStartName . $row;
-            $sheet->mergeCells($mergeCellName);
-            $sheet->getStyle($mergeCellName)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
-            $sheet->getStyle('A' . $row . ':' . $maxColumnName . $row)->applyFromArray($styleColumn);
-            $sheet->getCell('A' . $row)->setValue('Total');
-            foreach ($columnSUM as $colSum) {
-                excel_format($sheet, 'currency', $colSum . $row, "=SUM($colSum$startItem:$colSum$endItem)");
+            $sheet->mergeCells( $mergeCellName );
+            $sheet->getStyle( $mergeCellName )->getAlignment()->setHorizontal( Alignment::HORIZONTAL_RIGHT );
+            $sheet->getStyle( 'A' . $row . ':' . $maxColumnName . $row )->applyFromArray( $styleColumn );
+            $sheet->getCell( 'A' . $row )->setValue( 'Total' );
+            foreach ( $columnSUM as $colSum ) {
+                excel_format( $sheet, 'currency', $colSum . $row, "=SUM($colSum$startItem:$colSum$endItem)" );
             }
         }
         $row++;
         //Add more if set
-        if (sizeof($this->more) > 0) {
-            foreach ($this->more as $p) {
-                $length = sizeof($p['columns']);
-                $maxColumnName = Coordinate::stringFromColumnIndex($length);
+        if ( sizeof( $this->more ) > 0 ) {
+            foreach ( $this->more as $p ) {
+                $length = sizeof( $p['columns'] );
+                $maxColumnName = Coordinate::stringFromColumnIndex( $length );
                 $row++;
                 $mergeCellName = 'A' . $row . ':' . $maxColumnName . $row;
                 // Add some data
-                $sheet->mergeCells($mergeCellName);
-                $sheet->getStyle($mergeCellName)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                $sheet->getStyle($mergeCellName)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                $sheet->mergeCells( $mergeCellName );
+                $sheet->getStyle( $mergeCellName )->getAlignment()->setHorizontal( Alignment::HORIZONTAL_CENTER );
+                $sheet->getStyle( $mergeCellName )->getAlignment()->setVertical( Alignment::VERTICAL_CENTER );
                 $richText = new RichText();
-                $payable = $richText->createTextRun($p['title']);
-                $payable->getFont()->setSize(12);
-                $payable->getFont()->setBold(true);
-                $payable->getFont()->setColor(new Color(Color::COLOR_BLACK));
-                $richText->createText('.');
-                $sheet->getCell('A' . $row)->setValue($richText);
-                $sheet->getRowDimension($row)->setRowHeight(30);
+                $payable = $richText->createTextRun( $p['title'] );
+                $payable->getFont()->setSize( 12 );
+                $payable->getFont()->setBold( true );
+                $payable->getFont()->setColor( new Color( Color::COLOR_BLACK ) );
+                $richText->createText( '.' );
+                $sheet->getCell( 'A' . $row )->setValue( $richText );
+                $sheet->getRowDimension( $row )->setRowHeight( 30 );
 
                 $row++;
                 $i = 1;
                 $currencyStart = null;
                 $columnSUM = [];
-                foreach ($p['columns'] as $column => $icolumn) {
-                    $sheet->setCellValueByColumnAndRow($i, $row, $icolumn['title']);
+                foreach ( $p['columns'] as $column => $icolumn ) {
+                    $sheet->setCellValueByColumnAndRow( $i, $row, $icolumn['title'] );
                     $p['columns'][$column]['index'] = $i;
-                    $p['columns'][$column]['name'] = Coordinate::stringFromColumnIndex($i);
-                    $align = $sheet->getStyle($p['columns'][$column]['name'])->getAlignment();
-                    $align->setWrapText(true);
-                    $align->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                    $sheet->getColumnDimension($p['columns'][$column]['name'])->setAutoSize(true);
+                    $p['columns'][$column]['name'] = Coordinate::stringFromColumnIndex( $i );
+                    $align = $sheet->getStyle( $p['columns'][$column]['name'] )->getAlignment();
+                    $align->setWrapText( true );
+                    $align->setHorizontal( Alignment::HORIZONTAL_LEFT );
+                    $sheet->getColumnDimension( $p['columns'][$column]['name'] )->setAutoSize( true );
                     // style
-                    $styleRow = $sheet->getStyle($p['columns'][$column]['name'] . $row);
-                    $styleRow->applyFromArray($styleColumn);
-                    $styleRow->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);
-                    $styleRow->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                    $styleRow = $sheet->getStyle( $p['columns'][$column]['name'] . $row );
+                    $styleRow->applyFromArray( $styleColumn );
+                    $styleRow->getAlignment()->setHorizontal( Alignment::HORIZONTAL_LEFT );
+                    $styleRow->getAlignment()->setVertical( Alignment::VERTICAL_CENTER );
                     /** Check for currency */
-                    if (!empty($icolumn['format'])) {
-                        if ($icolumn['format'] === 'currency') {
-                            if (null === $currencyStart) {
+                    if ( !empty( $icolumn['format'] ) ) {
+                        if ( $icolumn['format'] === 'currency' ) {
+                            if ( null === $currencyStart ) {
                                 $currencyStart = $p['columns'][$column]['index'];
                             }
                             $columnSUM[] = $p['columns'][$column]['name'];
@@ -389,19 +363,19 @@ class GridExcel
                 }
                 $row++;
                 $startItem = $row;
-                if (sizeof($p['items']) > 0) {
-                    foreach ($p['items'] as $item) {
-                        foreach ($item as $itemName => $itemValue) {
-                            if (!isset($p['columns'][$itemName]['index'])) {
+                if ( sizeof( $p['items'] ) > 0 ) {
+                    foreach ( $p['items'] as $item ) {
+                        foreach ( $item as $itemName => $itemValue ) {
+                            if ( !isset( $p['columns'][$itemName]['index'] ) ) {
                                 continue;
                             }
                             $c = $p['columns'][$itemName];
 
-                            if (!empty($c['format'])) {
-                                excel_format($sheet, $c['format'], $c['name'] . $row, $itemValue);
+                            if ( !empty( $c['format'] ) ) {
+                                excel_format( $sheet, $c['format'], $c['name'] . $row, $itemValue );
                             } else {
-                                $sheet->getStyleByColumnAndRow($p['columns'][$itemName]['index'], $row)->getFont()->setSize(9);
-                                $sheet->setCellValueByColumnAndRow($p['columns'][$itemName]['index'], $row, $itemValue);
+                                $sheet->getStyleByColumnAndRow( $p['columns'][$itemName]['index'], $row )->getFont()->setSize( 9 );
+                                $sheet->setCellValueByColumnAndRow( $p['columns'][$itemName]['index'], $row, $itemValue );
                             }
                         }
                         $row++;
@@ -409,35 +383,68 @@ class GridExcel
                 } else {
                     $mergeCellName = 'A' . $row . ':' . $maxColumnName . $row;
                     // Add some data
-                    $sheet->mergeCells($mergeCellName);
-                    $sheet->getStyle($mergeCellName)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                    $sheet->getStyle($mergeCellName)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-                    $sheet->getCell('A' . $row)->setValue('No Data');
-                    $sheet->getStyle('A' . $row)->getFont()
-                        ->setSize(9)
-                        ->setItalic(true);
+                    $sheet->mergeCells( $mergeCellName );
+                    $sheet->getStyle( $mergeCellName )->getAlignment()->setHorizontal( Alignment::HORIZONTAL_CENTER );
+                    $sheet->getStyle( $mergeCellName )->getAlignment()->setVertical( Alignment::VERTICAL_CENTER );
+                    $sheet->getCell( 'A' . $row )->setValue( 'No Data' );
+                    $sheet->getStyle( 'A' . $row )->getFont()
+                        ->setSize( 9 )
+                        ->setItalic( true );
                     $row++;
                 }
                 $endItem = $row;
-                if (count($columnSUM) > 0) {
-                    $currencyStartName = Coordinate::stringFromColumnIndex($currencyStart - 1);
+                if ( count( $columnSUM ) > 0 ) {
+                    $currencyStartName = Coordinate::stringFromColumnIndex( $currencyStart - 1 );
                     $mergeCellName = 'A' . $row . ':' . $currencyStartName . $row;
-                    $sheet->mergeCells($mergeCellName);
-                    $sheet->getStyle($mergeCellName)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
-                    $sheet->getStyle('A' . $row . ':' . $maxColumnName . $row)->applyFromArray($styleColumn);
-                    $sheet->getCell('A' . $row)->setValue('Total');
-                    foreach ($columnSUM as $colSum) {
-                        excel_format($sheet, 'currency', $colSum . $row, "=SUM($colSum$startItem:$colSum$endItem)");
+                    $sheet->mergeCells( $mergeCellName );
+                    $sheet->getStyle( $mergeCellName )->getAlignment()->setHorizontal( Alignment::HORIZONTAL_RIGHT );
+                    $sheet->getStyle( 'A' . $row . ':' . $maxColumnName . $row )->applyFromArray( $styleColumn );
+                    $sheet->getCell( 'A' . $row )->setValue( 'Total' );
+                    foreach ( $columnSUM as $colSum ) {
+                        excel_format( $sheet, 'currency', $colSum . $row, "=SUM($colSum$startItem:$colSum$endItem)" );
                     }
                 }
             }
         }
 
-        $this->extension = pathinfo($this->filename, PATHINFO_EXTENSION);
-        $writer = IOFactory::createWriter($this->spreadsheet, ucfirst($this->extension));
-        $this->file = storage_path($this->filename);
-        $writer->save($this->file);
-        unset($writer);
+        $this->extension = pathinfo( $this->filename, PATHINFO_EXTENSION );
+        $writer = IOFactory::createWriter( $this->spreadsheet, ucfirst( $this->extension ) );
+        $this->file = storage_path( $this->filename );
+        $writer->save( $this->file );
+        unset( $writer );
+
+        return $this;
+    }
+
+    /**
+     * @return Spreadsheet
+     */
+    public function getSpreadsheet()
+    {
+        if ( null === $this->spreadsheet ) {
+            // Create new Spreadsheet object
+            $this->spreadsheet = new Spreadsheet();
+        }
+
+        return $this->spreadsheet;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitleDocument()
+    {
+        return $this->titleDocument;
+    }
+
+    /**
+     * @param string $titleDocument
+     *
+     * @return GridExcel
+     */
+    public function setTitleDocument( $titleDocument )
+    {
+        $this->titleDocument = $titleDocument;
 
         return $this;
     }

@@ -5,6 +5,7 @@ use Klb\Core\Grid\ParamsParser;
 
 /**
  * Class AdapterAbstract
+ *
  * @package Klb\Core\Grid\Adapters
  */
 abstract class AdapterAbstract
@@ -29,25 +30,9 @@ abstract class AdapterAbstract
     /** @var GridTable */
     protected $grid;
 
-    public function __construct($length)
+    public function __construct( $length )
     {
         $this->length = $length;
-    }
-
-    /**
-     * @param ParamsParser $parser
-     */
-    public function setParser(ParamsParser $parser)
-    {
-        $this->parser = $parser;
-    }
-
-    /**
-     * @param array $columns
-     */
-    public function setColumns(array $columns)
-    {
-        $this->columns = $columns;
     }
 
     /**
@@ -61,7 +46,7 @@ abstract class AdapterAbstract
     /**
      * @param GridTable $grid
      */
-    public function setGrid(GridTable $grid)
+    public function setGrid( GridTable $grid )
     {
         $this->grid = $grid;
     }
@@ -75,15 +60,11 @@ abstract class AdapterAbstract
     }
 
     /**
-     * @param $column
-     * @return bool
+     * @param array $columns
      */
-    public function columnExists($column)
+    public function setColumns( array $columns )
     {
-        if(array_key_exists($column, $this->columns)){
-            return true;
-        }
-        return in_array($column, $this->columns);
+        $this->columns = $columns;
     }
 
     /**
@@ -96,9 +77,10 @@ abstract class AdapterAbstract
 
     /**
      * @param array $conditions
+     *
      * @return $this
      */
-    public function setConditions(array $conditions)
+    public function setConditions( array $conditions )
     {
         $this->conditions = $conditions;
         return $this;
@@ -114,21 +96,12 @@ abstract class AdapterAbstract
 
     /**
      * @param array $operator
+     *
      * @return $this
      */
-    public function setOperator(array $operator)
+    public function setOperator( array $operator )
     {
         $this->operator = $operator;
-        return $this;
-    }
-
-    /**
-     * @param callable $sum
-     * @return AdapterAbstract
-     */
-    public function setSum(callable $sum)
-    {
-        $this->sum = $sum;
         return $this;
     }
 
@@ -141,6 +114,17 @@ abstract class AdapterAbstract
     }
 
     /**
+     * @param callable $sum
+     *
+     * @return AdapterAbstract
+     */
+    public function setSum( callable $sum )
+    {
+        $this->sum = $sum;
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getValueFormat()
@@ -150,9 +134,10 @@ abstract class AdapterAbstract
 
     /**
      * @param array $valueFormat
+     *
      * @return AdapterAbstract
      */
-    public function setValueFormat(array $valueFormat)
+    public function setValueFormat( array $valueFormat )
     {
         $this->valueFormat = $valueFormat;
         return $this;
@@ -167,16 +152,25 @@ abstract class AdapterAbstract
     }
 
     /**
+     * @param ParamsParser $parser
+     */
+    public function setParser( ParamsParser $parser )
+    {
+        $this->parser = $parser;
+    }
+
+    /**
      * @param $options
+     *
      * @return array
      */
-    public function formResponse($options)
+    public function formResponse( $options )
     {
         $defaults = [
-            'total' => 0,
+            'total'    => 0,
             'filtered' => 0,
-            'data' => [],
-            'sum' => []
+            'data'     => [],
+            'sum'      => []
         ];
         $options += $defaults;
 
@@ -186,9 +180,9 @@ abstract class AdapterAbstract
         $response['recordsFiltered'] = $options['filtered'];
         $response['recordsSum'] = $options['sum'];
 
-        if (count($options['data'])) {
-            foreach ($options['data'] as $item) {
-                if (isset($item['id'])) {
+        if ( count( $options['data'] ) ) {
+            foreach ( $options['data'] as $item ) {
+                if ( isset( $item['id'] ) ) {
                     $item['DT_RowId'] = $item['id'];
                 }
 
@@ -202,56 +196,47 @@ abstract class AdapterAbstract
     }
 
     /**
-     * @param $string
-     * @return string
-     */
-    public function sanitaze($string)
-    {
-        return mb_substr($string, 0, $this->length);
-    }
-
-    /**
      * @param $case
      * @param $closure
      */
-    public function bind($case, $closure)
+    public function bind( $case, $closure )
     {
-        switch ($case) {
+        switch ( $case ) {
 
             case "global_search":
                 $search = $this->parser->getSearchValue();
-                if (!mb_strlen($search)) return;
+                if ( !mb_strlen( $search ) ) return;
 
-                foreach ($this->parser->getSearchableColumns() as $column) {
-                    if (!$this->columnExists($column)) continue;
-                    $closure($column, $this->sanitaze($search));
+                foreach ( $this->parser->getSearchableColumns() as $column ) {
+                    if ( !$this->columnExists( $column ) ) continue;
+                    $closure( $column, $this->sanitaze( $search ) );
                 }
                 break;
             case "column_search":
                 $columnSearch = $this->parser->getColumnsSearch();
 
-                if (!$columnSearch) return;
+                if ( !$columnSearch ) return;
 
-                if($this->parser->isFilter()){
-                    foreach ($columnSearch as $column => $value) {
-                        if (!$this->columnExists($column)) continue;
+                if ( $this->parser->isFilter() ) {
+                    foreach ( $columnSearch as $column => $value ) {
+                        if ( !$this->columnExists( $column ) ) continue;
                         $type = null;
-                        if(isset($value['type'])){
+                        if ( isset( $value['type'] ) ) {
                             $type = $value['type'];
                         }
-                        $closure($column, $value, $type);
+                        $closure( $column, $value, $type );
                     }
                 } else {
-                    foreach ($columnSearch as $key => $column) {
-                        if (!$this->columnExists($column['data'])) continue;
-                        $closure($column['data'], $this->sanitaze($column['search']['value']));
+                    foreach ( $columnSearch as $key => $column ) {
+                        if ( !$this->columnExists( $column['data'] ) ) continue;
+                        $closure( $column['data'], $this->sanitaze( $column['search']['value'] ) );
                     }
                 }
                 break;
             case "order":
                 $order = $this->parser->getOrder();
-                if (!$order){
-                    if(!empty($this->defaultOrderByDirection)){
+                if ( !$order ) {
+                    if ( !empty( $this->defaultOrderByDirection ) ) {
                         $order = $this->defaultOrderByDirection;
                     } else {
                         return;
@@ -261,21 +246,44 @@ abstract class AdapterAbstract
                 $orderArray = [];
                 $orderArrayString = [];
 
-                foreach ($order as $orderBy) {
-                    if (!isset($orderBy['dir']) || !isset($orderBy['column'])) continue;
+                foreach ( $order as $orderBy ) {
+                    if ( !isset( $orderBy['dir'] ) || !isset( $orderBy['column'] ) ) continue;
                     $orderDir = $orderBy['dir'];
 
-                    $column = $this->parser->getColumnById($orderBy['column']);
-                    if (is_null($column) || !$this->columnExists($column)) continue;
+                    $column = $this->parser->getColumnById( $orderBy['column'] );
+                    if ( is_null( $column ) || !$this->columnExists( $column ) ) continue;
 
                     $orderArrayString[$column] = "{$column} {$orderDir}";
                     $orderArray[$column] = [ 'dir' => $orderDir, 'colById' => $orderBy['column'] ];
                 }
 
-                $closure($orderArrayString, $orderArray);
+                $closure( $orderArrayString, $orderArray );
                 break;
 
         }
+    }
+
+    /**
+     * @param $column
+     *
+     * @return bool
+     */
+    public function columnExists( $column )
+    {
+        if ( array_key_exists( $column, $this->columns ) ) {
+            return true;
+        }
+        return in_array( $column, $this->columns );
+    }
+
+    /**
+     * @param $string
+     *
+     * @return string
+     */
+    public function sanitaze( $string )
+    {
+        return mb_substr( $string, 0, $this->length );
     }
 
     /**
@@ -293,9 +301,10 @@ abstract class AdapterAbstract
 
     /**
      * @param callable $filter
+     *
      * @return AdapterAbstract
      */
-    public function addFilters(callable $filter)
+    public function addFilters( callable $filter )
     {
         $this->filters[] = $filter;
         return $this;
@@ -303,9 +312,11 @@ abstract class AdapterAbstract
 
     /**
      * @param array $orderBy
+     *
      * @return $this
      */
-    public function defaultOrderBy(array $orderBy){
+    public function defaultOrderBy( array $orderBy )
+    {
         $this->defaultOrderByDirection = $orderBy;
         return $this;
     }

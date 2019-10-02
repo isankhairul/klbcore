@@ -2,7 +2,24 @@
 
 use Klb\Core\Model\MailTemplate;
 use Klb\Core\Queue\QueueMailWorker;
+use Phalcon\Mvc\Model;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use RuntimeException;
+use function array_merge;
+use function explode;
+use function extract;
+use function is_array;
+use function is_numeric;
+use function is_object;
+use function is_string;
+use function ob_end_clean;
+use function ob_get_contents;
+use function ob_start;
+use function serialize;
+use function strpos;
+use function trim;
+use function unserialize;
+
 /**
  * Class Queue
  *
@@ -11,7 +28,7 @@ use Phalcon\Mvc\View\Engine\Volt\Compiler;
 class Queue
 {
     /**
-     * @var \Phalcon\Mvc\Model
+     * @var Model
      */
     private $template;
     private $code;
@@ -26,14 +43,77 @@ class Queue
      * Queue constructor.
      *
      * @param null|string|MailTemplate $code
-     * @param array $variable
+     * @param array                    $variable
      */
-    public function __construct($code = null, array $variable = [])
+    public function __construct( $code = null, array $variable = [] )
     {
-        if (null !== $code) {
-            $this->setCode($code);
-            $this->setVariables($variable);
+        if ( null !== $code ) {
+            $this->setCode( $code );
+            $this->setVariables( $variable );
         }
+    }
+
+    /**
+     * @param null|string|MailTemplate $code
+     * @param array                    $variable
+     *
+     * @return Queue
+     */
+    public static function of( $code = null, array $variable = [] )
+    {
+        return new self( $code, $variable );
+    }
+
+    /**
+     * @return Model
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
+     * @param Model $template
+     *
+     * @return Queue
+     */
+    public function setTemplate( Model $template )
+    {
+        $this->template = $template;
+        $this->setBcc( $this->template->bcc );
+        $this->setSender( $this->template->sender );
+        $this->setRecipients( $this->template->recipients );
+        $this->setSubject( $this->template->subject );
+        $this->setBody( $this->template->body );
+        $this->setSubject( $this->template->subject );
+
+        return $this;
+    }
+
+    /**
+     * @param array $variable
+     * @param null  $body
+     * @param array $queueOptions
+     *
+     * @return mixed
+     */
+    public function push( array $variable = [], $body = null, array $queueOptions = [] )
+    {
+        $this->setVariables( $variable );
+        $this->setBody( $body );
+        $queue = di( 'queue' );
+        $queue->choose( QueueMailWorker::getTubeName() );
+        $put = $queue->put( [
+            'code'       => $this->getCode(),
+            'variables'  => serialize( $variable ),
+            'bcc'        => $this->getBcc(),
+            'recipients' => $this->getRecipients(),
+            'sender'     => $this->getSender(),
+            'body'       => $body,
+        ], $queueOptions );
+        unset( $queue );
+
+        return $put;
     }
 
     /**
@@ -46,187 +126,20 @@ class Queue
 
     /**
      * @param string $code
+     *
      * @return Queue
      */
-    public function setCode($code)
+    public function setCode( $code )
     {
 
-        if (\is_object($code) && $code instanceof MailTemplate) {
+        if ( is_object( $code ) && $code instanceof MailTemplate ) {
             $this->code = $code->code;
-            $this->setTemplate($code);
+            $this->setTemplate( $code );
         } else {
             $this->code = $code;
-            if (empty($this->template)) {
-                $this->setTemplate(MailTemplate::findFirst("code='$code' AND active = 1"));
+            if ( empty( $this->template ) ) {
+                $this->setTemplate( MailTemplate::findFirst( "code='$code' AND active = 1" ) );
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return \Phalcon\Mvc\Model
-     */
-    public function getTemplate()
-    {
-        return $this->template;
-    }
-
-    /**
-     * @param \Phalcon\Mvc\Model $template
-     * @return Queue
-     */
-    public function setTemplate(\Phalcon\Mvc\Model $template)
-    {
-        $this->template = $template;
-        $this->setBcc($this->template->bcc);
-        $this->setSender($this->template->sender);
-        $this->setRecipients($this->template->recipients);
-        $this->setSubject($this->template->subject);
-        $this->setBody($this->template->body);
-        $this->setSubject($this->template->subject);
-
-        return $this;
-    }
-
-
-    /**
-     * @return mixed
-     */
-    public function getBody()
-    {
-        return $this->body;
-    }
-
-    /**
-     * @param mixed $body
-     * @return Queue
-     */
-    public function setBody($body)
-    {
-        $this->body = $body ?: $this->body;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSender()
-    {
-        return $this->sender;
-    }
-
-    /**
-     * @param mixed $sender
-     * @return Queue
-     */
-    public function setSender($sender)
-    {
-        $this->sender = $sender ?: $this->sender;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getSubject()
-    {
-        return $this->subject;
-    }
-
-    /**
-     * @param mixed $subject
-     * @return Queue
-     */
-    public function setSubject($subject)
-    {
-        $this->subject = $subject ?: $this->subject;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRecipients()
-    {
-        return $this->recipients;
-    }
-
-    /**
-     * @param mixed $recipients
-     * @return Queue
-     */
-    public function setRecipients($recipients)
-    {
-        $this->recipients = $this->formatEmail($recipients);
-
-        return $this;
-    }
-
-    /**
-     * @param $to
-     * @return array
-     */
-    private function formatEmail($to)
-    {
-        $emails = [];
-        if (!\is_array($to)) {
-            $to = \explode(',', $to);
-        }
-        foreach ($to as $i => $email) {
-            if (!$email) {
-                continue;
-            }
-
-            if (!\is_numeric($i) && \strpos($i, '@') !== false) {
-                $email = \trim($email);
-                $emails[$i] = $email;
-            } else {
-                $email = \trim($email);
-                $name = null;
-                if (strpos($email, ':') !== false) {
-                    list($email, $name) = explode(':', $email);
-                }
-
-                if (\strpos($email, '@') === false) {
-                    continue;
-                }
-
-                if ($name) {
-                    $emails[$email] = $name;
-                } else {
-                    $emails[] = $email;
-                }
-            }
-        }
-
-        return $emails;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getVariables()
-    {
-        return (array)$this->variables;
-    }
-
-    /**
-     * @param mixed $variables
-     * @return Queue
-     */
-    public function setVariables($variables)
-    {
-
-        if (\is_string($variables)) {
-            $variables = @\unserialize($variables);
-        }
-
-        if (\is_array($variables)) {
-            $this->variables = \array_merge($this->getVariables(), $variables);
         }
 
         return $this;
@@ -242,48 +155,108 @@ class Queue
 
     /**
      * @param mixed $bcc
+     *
      * @return Queue
      */
-    public function setBcc($bcc)
+    public function setBcc( $bcc )
     {
-        $this->bcc = $this->formatEmail($bcc);
+        $this->bcc = $this->formatEmail( $bcc );
 
         return $this;
     }
 
     /**
-     * @param null|string|MailTemplate $code
-     * @param array $variable
-     * @return Queue
+     * @return mixed
      */
-    public static function of($code = null, array $variable = [])
+    public function getRecipients()
     {
-        return new self($code, $variable);
+        return $this->recipients;
     }
 
     /**
-     * @param array $variable
-     * @param null $body
-     * @param array $queueOptions
+     * @param mixed $recipients
+     *
+     * @return Queue
+     */
+    public function setRecipients( $recipients )
+    {
+        $this->recipients = $this->formatEmail( $recipients );
+
+        return $this;
+    }
+
+    /**
      * @return mixed
      */
-    public function push(array $variable = [], $body = null, array $queueOptions = [])
+    public function getSender()
     {
-        $this->setVariables($variable);
-        $this->setBody($body);
-        $queue = di('queue');
-        $queue->choose(QueueMailWorker::getTubeName());
-        $put = $queue->put([
-            'code'       => $this->getCode(),
-            'variables'  => \serialize($variable),
-            'bcc'        => $this->getBcc(),
-            'recipients' => $this->getRecipients(),
-            'sender'     => $this->getSender(),
-            'body'       => $body,
-        ], $queueOptions);
-        unset($queue);
+        return $this->sender;
+    }
 
-        return $put;
+    /**
+     * @param mixed $sender
+     *
+     * @return Queue
+     */
+    public function setSender( $sender )
+    {
+        $this->sender = $sender ?: $this->sender;
+
+        return $this;
+    }
+
+    /**
+     * @param array $data
+     *
+     * @return bool
+     */
+    public function send( array $data = [] )
+    {
+
+        if ( !empty( $data['bcc'] ) ) $this->setBcc( $data['bcc'] );
+        if ( !empty( $data['sender'] ) ) $this->setSender( $data['sender'] );
+        if ( !empty( $data['recipients'] ) ) $this->setRecipients( $data['recipients'] );
+        if ( !empty( $data['variables'] ) ) $this->setVariables( $data['variables'] );
+        if ( !empty( $data['subject'] ) ) $this->setSubject( $data['subject'] );
+        if ( !empty( $data['body'] ) ) $this->setBody( $data['body'] );
+        /** Cek Recipients */
+        if ( count( $this->getRecipients() ) === 0 ) {
+            throw new RuntimeException( 'Invalid Recipients Email' );
+        }
+        /** Cek Subject */
+        if ( empty( $this->getSubject() ) ) {
+            throw new RuntimeException( 'Invalid Subject Email' );
+        }
+        /** @var string $body Prepare Body */
+        $body = $this->prepareBody();
+
+        if ( empty( $body ) ) {
+            throw new RuntimeException( 'Invalid Body Email' );
+        }
+
+        $this->template = null;//Reset the template object
+
+        return ( new Mail() )->sesEmailSend( $this->getSubject(), $this->getRecipients(), $body, null, $this->getSender() ?: null, $this->getBcc() ?: null );
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+
+    /**
+     * @param mixed $subject
+     *
+     * @return Queue
+     */
+    public function setSubject( $subject )
+    {
+        $this->subject = $subject ?: $this->subject;
+
+        return $this;
     }
 
     /**
@@ -295,53 +268,108 @@ class Queue
 
         $content = $this->getBody();
 
-        if (empty($content)) {
+        if ( empty( $content ) ) {
             return $content;
         }
 
-        \ob_start();
+        ob_start();
 
-        \extract($this->getVariables(), EXTR_OVERWRITE);
+        extract( $this->getVariables(), EXTR_OVERWRITE );
 
-        @eval(' ?>' . $compiler->compileString($content));
+        @eval( ' ?>' . $compiler->compileString( $content ) );
 
-        $body = \ob_get_contents();
+        $body = ob_get_contents();
 
-        \ob_end_clean();
+        ob_end_clean();
 
         return $body;
     }
 
     /**
-     * @param array $data
-     * @return bool
+     * @return mixed
      */
-    public function send(array $data = [])
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    /**
+     * @param mixed $body
+     *
+     * @return Queue
+     */
+    public function setBody( $body )
+    {
+        $this->body = $body ?: $this->body;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVariables()
+    {
+        return (array) $this->variables;
+    }
+
+    /**
+     * @param mixed $variables
+     *
+     * @return Queue
+     */
+    public function setVariables( $variables )
     {
 
-        if (!empty($data['bcc'])) $this->setBcc($data['bcc']);
-        if (!empty($data['sender'])) $this->setSender($data['sender']);
-        if (!empty($data['recipients'])) $this->setRecipients($data['recipients']);
-        if (!empty($data['variables'])) $this->setVariables($data['variables']);
-        if (!empty($data['subject'])) $this->setSubject($data['subject']);
-        if (!empty($data['body'])) $this->setBody($data['body']);
-        /** Cek Recipients */
-        if (count($this->getRecipients()) === 0) {
-            throw new \RuntimeException('Invalid Recipients Email');
-        }
-        /** Cek Subject */
-        if (empty($this->getSubject())) {
-            throw new \RuntimeException('Invalid Subject Email');
-        }
-        /** @var string $body Prepare Body */
-        $body = $this->prepareBody();
-
-        if (empty($body)) {
-            throw new \RuntimeException('Invalid Body Email');
+        if ( is_string( $variables ) ) {
+            $variables = @unserialize( $variables );
         }
 
-        $this->template = null;//Reset the template object
+        if ( is_array( $variables ) ) {
+            $this->variables = array_merge( $this->getVariables(), $variables );
+        }
 
-        return (new Mail())->sesEmailSend($this->getSubject(), $this->getRecipients(), $body, null, $this->getSender() ?: null, $this->getBcc() ?: null);
+        return $this;
+    }
+
+    /**
+     * @param $to
+     *
+     * @return array
+     */
+    private function formatEmail( $to )
+    {
+        $emails = [];
+        if ( !is_array( $to ) ) {
+            $to = explode( ',', $to );
+        }
+        foreach ( $to as $i => $email ) {
+            if ( !$email ) {
+                continue;
+            }
+
+            if ( !is_numeric( $i ) && strpos( $i, '@' ) !== false ) {
+                $email = trim( $email );
+                $emails[$i] = $email;
+            } else {
+                $email = trim( $email );
+                $name = null;
+                if ( strpos( $email, ':' ) !== false ) {
+                    list( $email, $name ) = explode( ':', $email );
+                }
+
+                if ( strpos( $email, '@' ) === false ) {
+                    continue;
+                }
+
+                if ( $name ) {
+                    $emails[$email] = $name;
+                } else {
+                    $emails[] = $email;
+                }
+            }
+        }
+
+        return $emails;
     }
 }
