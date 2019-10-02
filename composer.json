@@ -1,5 +1,5 @@
 {
-    "name": "KLBers/klbcore",
+    "name": "klb/core",
     "license": "MIT",
     "autoload": {
         "psr-4": {
