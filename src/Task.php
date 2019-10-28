@@ -118,6 +118,13 @@ class Task extends \Danzabar\CLI\Tasks\Task
     }
 
     /**
+     * @return string
+     */
+    public function getName(){
+        return $this->name;
+    }
+
+    /**
      * @param        $message
      * @param string $type
      */
