@@ -263,4 +263,37 @@ class Task extends \Danzabar\CLI\Tasks\Task
     {
         return $this->helpers->load( 'confirm' );
     }
+
+
+    /**
+     * @return Confirmation
+     */
+    protected function getHelperConfirmation()
+    {
+        return $this->helpers->load( 'confirm' );
+    }
+
+    /**
+     * The main action for this command
+     *
+     * @Action
+     * @return void
+     */
+    public function main()
+    {
+        $this->info("$this->name ....");
+    }
+    /**
+     * @Action
+     */
+    public function help(){
+        $this->comment('');
+        $this->comment("$this->name
+---------------------------------------------------------------------------------------------
+$this->description.
+---------------------------------------------------------------------------------------------
+");
+
+        $this->comment("\n");
+    }
 }
