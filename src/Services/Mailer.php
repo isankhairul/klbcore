@@ -5,9 +5,11 @@ namespace Klb\Core\Services;
 
 
 use Klb\Core\Model\MailTemplate;
+use Phalcon\Config;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use RuntimeException;
+use Swift_Attachment;
 use Swift_AWSTransport;
 use Swift_Mailer;
 use Swift_Message as Message;
@@ -27,6 +29,10 @@ class Mailer
     private $variables;
     private $bcc;
     private $body;
+    /**
+     * @var Config
+     */
+    private $config;
 
     /**
      * Queue constructor.
@@ -40,6 +46,7 @@ class Mailer
             $this->setCode( $code );
             $this->setVariables( $variable );
         }
+        $this->config = di( 'config' );
     }
 
     /**
@@ -191,12 +198,20 @@ class Mailer
 
     /**
      * @param array $data
+     * @param null  $file
      *
      * @return bool
      */
-    public function send( array $data = [] )
+    public function send( array $data = [], $file = null )
     {
-
+        $attachment = null;
+        if ( null !== $file ) {
+            if ( !is_readable( $file ) ) {
+                throw new RuntimeException( "File [$file] can't be read!" );
+            }
+            $fileName = basename( $file );
+            $attachment = Swift_Attachment::fromPath( $file )->setFilename( $fileName );
+        }
         if ( !empty( $data['bcc'] ) ) $this->setBcc( $data['bcc'] );
         if ( !empty( $data['sender'] ) ) $this->setSender( $data['sender'] );
         if ( !empty( $data['recipients'] ) ) $this->setRecipients( $data['recipients'] );
@@ -220,7 +235,7 @@ class Mailer
 
         $this->template = null;//Reset the template object
 
-        return $this->sendMail( $this->getSubject(), $this->getRecipients(), $body, null, $this->getSender() ?: null, $this->getBcc() ?: null );
+        return $this->sendMail( $this->getSubject(), $this->getRecipients(), $body, $attachment, $this->getSender() ?: null, $this->getBcc() ?: null );
     }
 
     /**
