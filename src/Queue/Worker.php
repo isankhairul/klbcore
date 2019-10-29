@@ -39,6 +39,18 @@ class Worker implements InjectionAwareInterface
      */
     protected $cache;
     /**
+     * The exception handler instance.
+     *
+     * @var \Exception
+     */
+    protected $exceptions;
+    /**
+     * The callback used to determine if the application is in maintenance mode.
+     *
+     * @var \callable
+     */
+    protected $isDownForMaintenance;
+    /**
      * @var DiInterface
      */
     protected $di;

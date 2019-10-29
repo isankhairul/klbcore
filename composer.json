@@ -22,6 +22,7 @@
     "ext-curl": "*",
     "ext-pdo": "*",
     "ext-mbstring": "*",
+    "ext-pcntl": "*",
     "ext-phalcon": "^3.4",
     "ext-rdkafka": "^3.1.2",
     "danzabar/phalcon-cli": "^1.0",
@@ -34,9 +35,16 @@
     "enqueue/rdkafka": "^0.9.14",
     "matthiasmullie/minify": "^1.3"
   },
+  "suggest": {
+    "ext-pcntl": "Required to use all features of the queue worker.",
+    "ext-posix": "Required to use all features of the queue worker."
+  },
   "require-dev": {
     "phalcon/dd": "^1.1",
     "phpunit/phpunit": "^8.4"
+  },
+  "config": {
+    "sort-packages": true
   },
   "minimum-stability": "dev"
 }

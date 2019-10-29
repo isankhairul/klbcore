@@ -21,35 +21,35 @@ abstract class WorkerOptions
      *
      * @var int
      */
-    public $delay = 0;
+    public $delay;
 
     /**
      * The maximum amount of RAM the worker may consume.
      *
      * @var int
      */
-    public $memory = 128;
+    public $memory;
 
     /**
      * The maximum number of seconds a child worker may run.
      *
      * @var int
      */
-    public $timeout = 60;
+    public $timeout;
 
     /**
      * The number of seconds to wait in between polling the queue.
      *
      * @var int
      */
-    public $sleep = 3;
+    public $sleep;
 
     /**
      * The maximum amount of times a job may be attempted.
      *
      * @var int
      */
-    public $maxTries = 0;
+    public $maxTries;
 
     /**
      * Indicates if the worker should run in maintenance mode.
@@ -65,6 +65,36 @@ abstract class WorkerOptions
      * @var Task
      */
     public $task;
+    /**
+     * Indicates if the worker should stop when queue is empty.
+     *
+     * @var bool
+     */
+    public $stopWhenEmpty;
+
+    /**
+     * Create a new worker options instance.
+     *
+     * @param int  $delay
+     * @param int  $memory
+     * @param int  $timeout
+     * @param int  $sleep
+     * @param int  $maxTries
+     * @param bool $force
+     * @param bool $stopWhenEmpty
+     *
+     * @return void
+     */
+    public function __construct( $delay = 0, $memory = 128, $timeout = 60, $sleep = 3, $maxTries = 1, $force = false, $stopWhenEmpty = false )
+    {
+        $this->delay = $delay;
+        $this->sleep = $sleep;
+        $this->force = $force;
+        $this->memory = $memory;
+        $this->timeout = $timeout;
+        $this->maxTries = $maxTries;
+        $this->stopWhenEmpty = $stopWhenEmpty;
+    }
 
     /**
      * Get tube name
