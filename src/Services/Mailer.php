@@ -28,6 +28,7 @@ class Mailer
     private $variables;
     private $bcc;
     private $body;
+    private static $pushCallback;
     /**
      * @var Config
      */
@@ -48,6 +49,15 @@ class Mailer
         }
         $this->config = $config;
     }
+
+    /**
+     * @param mixed $pushCallback
+     */
+    public static function setPushCallback( $pushCallback )
+    {
+        self::$pushCallback = $pushCallback;
+    }
+
 
     /**
      * @return Model
@@ -78,22 +88,24 @@ class Mailer
     /**
      * @param array $variable
      * @param null  $body
-     * @param array $queueOptions
      *
      * @throws \Exception
      */
-    public function push( array $variable = [], $body = null, array $queueOptions = [] )
+    public function push( array $variable = [], $body = null )
     {
         $this->setVariables( $variable );
         $this->setBody( $body );
-        di( 'queue' )->consumer( 'mailer', [
-            'code'       => $this->getCode(),
-            'variables'  => serialize( $variable ),
-            'bcc'        => $this->getBcc(),
-            'recipients' => $this->getRecipients(),
-            'sender'     => $this->getSender(),
-            'body'       => $body,
-        ], $queueOptions );
+        if ( is_callable( static::$pushCallback ) ){
+            $pushCallback = self::$pushCallback;
+            self::$pushCallback( [
+                'code'       => $this->getCode(),
+                'variables'  => serialize( $variable ),
+                'bcc'        => $this->getBcc(),
+                'recipients' => $this->getRecipients(),
+                'sender'     => $this->getSender(),
+                'body'       => $body,
+            ] );
+        }
     }
 
     /**
