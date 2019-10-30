@@ -12,8 +12,7 @@ use Phalcon\Mvc\Model;
  * `code` varchar(100) DEFAULT 'NULL',
  * `type` varchar(100) NOT NULL,
  * `active` tinyint(1) NOT NULL DEFAULT 0,
- * `store_code` varchar(10) DEFAULT NULL,
- * `recipients` varchar(1000) DEFAULT NULL,
+ * `recipients` varchar(500) DEFAULT NULL,
  * `sender` varchar(100) NOT NULL,
  * `bcc` varchar(300) DEFAULT NULL,
  * `subject` varchar(100) NOT NULL,
@@ -38,9 +37,6 @@ class MailTemplate extends Model
         if ( empty( $this->code ) && !empty( $this->name ) ) {
             $this->code = slug( $this->name );
         }
-        if ( !empty( $this->store_code ) && is_array( $this->store_code ) ) {
-            $this->store_code = join( ",", $this->store_code );
-        }
 
         if ( !empty( $this->variables ) && is_scalar( $this->variables ) ) {
             $this->variables = serialize( $this->variables );
@@ -52,9 +48,7 @@ class MailTemplate extends Model
      */
     public function afterFetch()
     {
-        if ( is_string( $this->store_code ) ) {
-            $this->store_code = explode( ",", $this->store_code );
-        }
+
         if ( is_string( $this->variables ) ) {
             $this->variables = @unserialize( $this->variables );
         }

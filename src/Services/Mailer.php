@@ -75,12 +75,12 @@ class Mailer
     public function setTemplate( Model $template )
     {
         $this->template = $template;
-        $this->setBcc( $this->template->bcc );
-        $this->setSender( $this->template->sender );
-        $this->setRecipients( $this->template->recipients );
-        $this->setSubject( $this->template->subject );
-        $this->setBody( $this->template->body );
-        $this->setSubject( $this->template->subject );
+        if ( empty( $this->getBcc() ) ) $this->setBcc( $this->template->bcc );
+        if ( empty( $this->getSender() ) ) $this->setSender( $this->template->sender );
+        if ( empty( $this->getRecipients() ) ) $this->setRecipients( $this->template->recipients );
+        if ( empty( $this->getSubject() ) ) $this->setSubject( $this->template->subject );
+        if ( empty( $this->getBody() ) ) $this->setBody( $this->template->body );
+        if ( empty( $this->getSubject() ) ) $this->setSubject( $this->template->subject );
 
         return $this;
     }
@@ -93,17 +93,16 @@ class Mailer
      */
     public function push( array $variable = [], $body = null )
     {
-        $this->setVariables( $variable );
-        $this->setBody( $body );
-        if ( is_callable( static::$pushCallback ) ){
-            $pushCallback = self::$pushCallback;
-            self::$pushCallback( [
+        if ( count( $variable ) > 0 ) $this->setVariables( $variable );
+        if ( null !== $body ) $this->setBody( $body );
+        if ( is_callable( static::$pushCallback ) ) {
+            call_user_func( static::$pushCallback, [
                 'code'       => $this->getCode(),
-                'variables'  => serialize( $variable ),
+                'variables'  => serialize( $this->getVariables() ),
                 'bcc'        => $this->getBcc(),
                 'recipients' => $this->getRecipients(),
                 'sender'     => $this->getSender(),
-                'body'       => $body,
+                'body'       => $this->getBody(),
             ] );
         }
     }
@@ -371,6 +370,22 @@ class Mailer
         }
 
         return $emails;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return [
+            'code'       => $this->code,
+            'sender'     => $this->sender,
+            'subject'    => $this->subject,
+            'recipients' => $this->recipients,
+            'variables'  => $this->variables,
+            'bcc'        => $this->bcc,
+            'body'       => substr( $this->body, 0, 10 ),
+        ];
     }
 
     /**
