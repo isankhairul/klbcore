@@ -1,0 +1,50 @@
+{
+  "name": "klb/core",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Klb\\Core\\": "src/"
+    },
+    "files": [
+      "src/helpers.php",
+      "src/functions.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "ext-ftp": "*",
+    "ext-json": "*",
+    "ext-intl": "*",
+    "ext-curl": "*",
+    "ext-pdo": "*",
+    "ext-mbstring": "*",
+    "ext-pcntl": "*",
+    "ext-phalcon": "^3.4",
+    "ext-rdkafka": "^3.1.2",
+    "danzabar/phalcon-cli": "^1.0",
+    "swiftmailer/swiftmailer": "^6.2",
+    "jmhobbs/swiftmailer-transport-aws-ses": "^1.0.0",
+    "mike42/escpos-php": "^2.0.2",
+    "phalcon/incubator": "^3.4",
+    "league/csv": "^9.4",
+    "phpoffice/phpspreadsheet": "^1.9",
+    "enqueue/rdkafka": "^0.9",
+    "matthiasmullie/minify": "^1.3"
+  },
+  "suggest": {
+    "ext-pcntl": "Required to use all features of the queue worker.",
+    "ext-posix": "Required to use all features of the queue worker."
+  },
+  "require-dev": {
+    "phalcon/dd": "^1.1",
+    "phpunit/phpunit": "^8.4"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev"
+}
