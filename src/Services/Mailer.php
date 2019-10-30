@@ -50,17 +50,6 @@ class Mailer
     }
 
     /**
-     * @param null|string|MailTemplate $code
-     * @param array                    $variable
-     *
-     * @return Mailer
-     */
-    public static function of( $code = null, array $variable = [] )
-    {
-        return new self( $code, $variable );
-    }
-
-    /**
      * @return Model
      */
     public function getTemplate()
