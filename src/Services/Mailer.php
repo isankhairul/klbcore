@@ -385,7 +385,7 @@ class Mailer
     private function sendMail( $subject, $recipient, $emailBody, $attachment = null, $sender = null, $bcc = null )
     {
         //print_r($recipient); exit();
-        $transport = Swift_AWSTransport::newInstance( $this->config->aws->key, $this->config->aws->secret );
+        $transport = Swift_AWSTransport::newInstance( $this->config->key, $this->config->secret );
         $transport->setDebug( false ); // Print the response from AWS to the error log for debugging.
 
         //Create the Mailer using your created Transport
@@ -396,7 +396,7 @@ class Mailer
         /** @var Swift_Mime_Message $message */
         $message = Message::newInstance()
             ->setSubject( $subject )
-            ->setFrom( $sender ?: $this->config->aws->sender )
+            ->setFrom( $sender ?: $this->config->sender )
             ->setTo( $recipient )
             ->setBody( $emailBody, 'text/html' );
         if ( null !== $bcc ) {
