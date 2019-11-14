@@ -9,8 +9,7 @@ if ( !defined( '_HELPER_FUNCTIONS_' ) ) {
     define( '_HELPER_FUNCTIONS_', true );
     /**
      * @param null $alias
-     *
-     * @return DiInterface
+     * @return mixed
      */
     function di( $alias = null )
     {
