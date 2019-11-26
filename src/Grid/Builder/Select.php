@@ -156,6 +156,10 @@ class Select
      */
     protected $autoQuoteIdentifiers = true;
     /**
+     * @var string
+     */
+    protected static $quoteSymbol = '`';
+    /**
      * Keys are UPPERCASE SQL datatypes or the constants
      * Zend_Db::INT_TYPE, Zend_Db::BIGINT_TYPE, or Zend_Db::FLOAT_TYPE.
      *
@@ -194,6 +198,13 @@ class Select
         $this->_parts = self::$partsInit;
     }
 
+    /**
+     * @param string $quoteSymbol
+     */
+    public static function setQuoteSymbol( $quoteSymbol )
+    {
+        self::$quoteSymbol = $quoteSymbol;
+    }
     /**
      * Get bind variables
      *
@@ -1260,7 +1271,7 @@ class Select
      */
     public function getQuoteIdentifierSymbol()
     {
-        return '`';
+        return self::$quoteSymbol;
     }
 
     /**
