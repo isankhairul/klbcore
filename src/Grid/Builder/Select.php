@@ -1,4 +1,5 @@
 <?php namespace Klb\Core\Grid\Builder;
+
 use Exception;
 use function count;
 use function join;
@@ -205,6 +206,7 @@ class Select
     {
         self::$quoteSymbol = $quoteSymbol;
     }
+
     /**
      * Get bind variables
      *
@@ -1683,5 +1685,32 @@ class Select
         }
 
         return $sql;
+    }
+
+    /**
+     * Add EXISTS clause
+     *
+     * @param Select $select
+     * @param string $joinCondition
+     * @param bool   $isExists
+     *
+     * @return $this
+     * @throws DbSelectException
+     */
+    public function exists( $select, $joinCondition, $isExists = true )
+    {
+        if ( $isExists ) {
+            $exists = 'EXISTS (%s)';
+        } else {
+            $exists = 'NOT EXISTS (%s)';
+        }
+        $select->reset( self::COLUMNS )
+            ->columns( array( new Expr( '1' ) ) )
+            ->where( $joinCondition );
+
+        $exists = sprintf( $exists, $select->assemble() );
+
+        $this->where( $exists );
+        return $this;
     }
 }
