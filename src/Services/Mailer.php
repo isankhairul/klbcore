@@ -128,8 +128,8 @@ class Mailer
             $this->setTemplate( $code );
         } else {
             $this->code = $code;
-            if ( empty( $this->template ) ) {
-                $this->setTemplate( MailTemplate::findFirst( "code='$code' AND status = 1" ) );
+            if ( empty( $this->template ) && false !== ( $template = MailTemplate::findFirst( "code='$code' AND status = 1" ) ) ) {
+                $this->setTemplate( $template );
             }
         }
 
