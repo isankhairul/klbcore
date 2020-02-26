@@ -4,6 +4,7 @@ use Danzabar\CLI\Input\InputOption;
 use Danzabar\CLI\Tasks\Helpers\Confirmation;
 use Danzabar\CLI\Tools\ParamBag;
 use Klb\Core\Solr\ConnectionContract;
+use Phalcon\Annotations\Extended\Adapter\Memory as Annotation;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\DiInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
@@ -277,14 +278,30 @@ class Task extends \Danzabar\CLI\Tasks\Task
     /**
      * @Action
      */
-    public function help(){
-        $this->comment('');
-        $this->comment("$this->name
+    public function help()
+    {
+        $this->getOutput()->writeln( '' );
+        $this->getOutput()->writeln( ucwords( $this->name ) . " available list
 ---------------------------------------------------------------------------------------------
 $this->description.
----------------------------------------------------------------------------------------------
-");
+-----------------------s----------------------------------------------------------------------
+" );
+        $list = [];
+        $annotions = new Annotation();
+        $methods = $annotions->getMethods( get_called_class() );
+        foreach ( $methods as $methodName => $collections ) {
+            /** @var \Phalcon\Annotations\Collection $collections */
+            foreach ( $collections as $collection ) {
+                if ( $collection->getName() === 'Action' ) {
+                    $list[$methodName] = $this->getColoredString( sprintf( " php cli %s:%s\n", $this->name, $methodName ), 'brown' );
+                }
+            }
+        }
 
-        $this->comment("\n");
+        ksort( $list );
+        foreach ( $list as $cmd ) {
+            $this->getOutput()->write( $cmd );
+        }
+        $this->getOutput()->writeln( '' );
     }
 }
