@@ -214,6 +214,7 @@ class Task extends \Danzabar\CLI\Tasks\Task
     {
         // Set the start time
         $this->startTime = microtime( true );
+        $this->info( "START ... " . date( 'Y-m-d H:i:s' ) );
     }
 
     /**
@@ -254,7 +255,7 @@ class Task extends \Danzabar\CLI\Tasks\Task
             $result .= $$k;
         }
 
-        return $result ? $result . 'ago' : '1 sec to go';
+        return $result ? $result . 'ago' : '1 sec ago';
     }
 
     /**
