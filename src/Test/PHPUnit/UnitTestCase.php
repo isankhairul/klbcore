@@ -13,11 +13,10 @@ declare(strict_types=1);
 
 namespace Klb\Core\Test\PHPUnit;
 
-use Phalcon\Di\InjectionAwareInterface;
 use Klb\Core\Test\Traits\UnitTestCase as UnitTestCaseTrait;
 use PHPUnit\Framework\TestCase as TestCase;
 
-abstract class UnitTestCase extends TestCase implements InjectionAwareInterface
+abstract class UnitTestCase extends TestCase
 {
     use UnitTestCaseTrait;
 
