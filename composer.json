@@ -6,14 +6,9 @@
       "Klb\\Core\\": "src/"
     },
     "files": [
-      "src/helpers.php",
-      "src/functions.php"
+      "src/klb-helpers.php",
+      "src/klb-functions.php"
     ]
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Tests\\": "tests/"
-    }
   },
   "require": {
     "ext-ftp": "*",
@@ -41,9 +36,7 @@
   },
   "require-dev": {
     "phalcon/dd": "^1.1",
-    "phpunit/phpunit": "^9.5",
-    "vimeo/psalm": "3.6.2",
-    "squizlabs/php_codesniffer": "3.5.1"
+    "phpunit/phpunit": "^9.5"
   },
   "config": {
     "sort-packages": true

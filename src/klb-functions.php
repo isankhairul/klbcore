@@ -1,16 +1,15 @@
 <?php
 
 
-use App\PrettyDateTime;
 use Phalcon\Di;
-use Phalcon\DiInterface;
 
-if ( !defined( '_HELPER_FUNCTIONS_' ) ) {
-    define( '_HELPER_FUNCTIONS_', true );
-    /**
-     * @param null $alias
-     * @return mixed
-     */
+
+/**
+ * @param null $alias
+ *
+ * @return mixed
+ */
+if ( !function_exists( 'di' ) ) {
     function di( $alias = null )
     {
         $default = Di::getDefault();
@@ -41,7 +40,9 @@ if ( !defined( '_HELPER_FUNCTIONS_' ) ) {
         # or just return the default thing
         return $default;
     }
+}
 
+if ( !function_exists( 'admin_uri' ) ) {
     /**
      * @return string
      */
@@ -49,7 +50,8 @@ if ( !defined( '_HELPER_FUNCTIONS_' ) ) {
     {
         return 'home';
     }
-
+}
+if ( !function_exists( 'api_uri' ) ) {
     /**
      * @return string
      */
@@ -57,7 +59,8 @@ if ( !defined( '_HELPER_FUNCTIONS_' ) ) {
     {
         return 'api/v1';
     }
-
+}
+if ( !function_exists( 'is_admin' ) ) {
     /**
      * @param null $auth
      *
@@ -71,8 +74,8 @@ if ( !defined( '_HELPER_FUNCTIONS_' ) ) {
 
         return $auth->isAdmin();
     }
-
-
+}
+if ( !function_exists( 'clean_input' ) ) {
     /**
      * @param       $moneys
      * @param array $in
@@ -88,7 +91,8 @@ if ( !defined( '_HELPER_FUNCTIONS_' ) ) {
             return substr( $k, 0, 5 ) !== 'dist-' && !in_array( $k, $in );
         }, ARRAY_FILTER_USE_KEY );
     }
-
+}
+if ( !function_exists( 'normal_case' ) ) {
     /**
      * @param $value
      *
@@ -98,8 +102,8 @@ if ( !defined( '_HELPER_FUNCTIONS_' ) ) {
     {
         return ucwords( str_replace( [ '-', '_' ], ' ', $value ) );
     }
-
-
+}
+if ( !function_exists( 'umask_money' ) ) {
     /**
      * @param $decimal
      *
@@ -116,7 +120,9 @@ if ( !defined( '_HELPER_FUNCTIONS_' ) ) {
 
         return $decimal;
     }
+}
 
+if ( !function_exists( 'pre' ) ) {
     /**
      *
      */
@@ -136,8 +142,9 @@ if ( !defined( '_HELPER_FUNCTIONS_' ) ) {
         }
         exit;
     }
+}
 
-
+if ( !function_exists( 'currency' ) ) {
     /**
      * @param      $value
      * @param bool $withHtml
@@ -172,7 +179,9 @@ HTML;
 
         return '<span class="currency-rp">' . $currency . '</span>' . $valueFormat;
     }
+}
 
+if ( !function_exists( 'pad_currency' ) ) {
     /**
      * @param $value
      * @param $pad_length
@@ -186,7 +195,9 @@ HTML;
 
         return $currency . str_pad( $valueFormat . '  ', $pad_length - strlen( $currency ), ' ', STR_PAD_LEFT );
     }
+}
 
+if ( !function_exists( 'date_to_sql' ) ) {
     /**
      * @param $date
      *
@@ -219,7 +230,9 @@ HTML;
 
         return $date;
     }
+}
 
+if ( !function_exists( 'txt_pad' ) ) {
     /**
      * @param        $config
      * @param        $str
@@ -238,7 +251,9 @@ HTML;
 
         return $result;
     }
+}
 
+if ( !function_exists( 'format_number' ) ) {
     /**
      * @param     $number
      * @param int $decimal
@@ -249,7 +264,8 @@ HTML;
     {
         return number_format( $number, $decimal, ',', '.' );
     }
-
+}
+if ( !function_exists( 'format_qty' ) ) {
     /**
      * @param $number
      *
@@ -266,7 +282,9 @@ HTML;
 
         return is_float( $number ) ? $number : (int) $number;
     }
+}
 
+if ( !function_exists( 'format_percent' ) ) {
     /**
      * @param $number
      *
@@ -276,7 +294,9 @@ HTML;
     {
         return number_format( $number, 2, ',', '.' );
     }
+}
 
+if ( !function_exists( 'format_datetime' ) ) {
     /**
      * @param        $date
      * @param bool   $time
@@ -302,6 +322,9 @@ HTML;
 
         return date( $format, $date );
     }
+}
+
+if ( !function_exists( 'humanize' ) ) {
 
     /**
      * @param $date
@@ -314,14 +337,16 @@ HTML;
             return null;
         }
         try {
-            return PrettyDateTime::parse( new DateTime( $date ) );
+            return \Klb\Core\PrettyDateTime::parse( new DateTime( $date ) );
         } catch ( Exception $e ) {
 
         }
 
         return null;
     }
+}
 
+if ( !function_exists( 'display_date' ) ) {
     /**
      * @param        $date
      * @param bool   $time
@@ -347,7 +372,9 @@ HTML;
 
         return date( $format, $date );
     }
+}
 
+if ( !function_exists( 'is_date' ) ) {
     /**
      * @param $date
      *
@@ -365,7 +392,9 @@ HTML;
 
         return true;
     }
+}
 
+if ( !function_exists( 'a_format_date' ) ) {
     /**
      * @param        $date
      * @param string $format
@@ -383,7 +412,9 @@ HTML;
 
         return date( $format, $date );
     }
+}
 
+if ( !function_exists( 'a_format_date_id_sql' ) ) {
     /**
      * @param $date
      *
@@ -400,7 +431,9 @@ HTML;
 
         return $parseDate;
     }
+}
 
+if ( !function_exists( 'slug' ) ) {
     /**
      * @param        $string
      * @param array  $replace
@@ -424,8 +457,9 @@ HTML;
 
         return $clean;
     }
+}
 
-
+if ( !function_exists( 'clean_ascii' ) ) {
     /**
      * @param       $string
      * @param array $replace
@@ -453,7 +487,9 @@ HTML;
 
         return $clean;
     }
+}
 
+if ( !function_exists( 'trim_sku' ) ) {
     /**
      * @param $sku
      *
@@ -470,7 +506,9 @@ HTML;
 
         return trim( $sku );
     }
+}
 
+if ( !function_exists( 'is_ascii' ) ) {
     /**
      * Checks if a string is 7 bit ASCII.
      *
@@ -490,7 +528,9 @@ HTML;
 
         return (bool) !preg_match( '/[\x80-\xFF]/', $str );
     }
+}
 
+if ( !function_exists( 'weekly_sunday' ) ) {
     /**
      * @param        $start
      * @param        $end
@@ -522,7 +562,9 @@ HTML;
 
         return $sundays;
     }
+}
 
+if ( !function_exists( 'current_weekly_sunday' ) ) {
     /**
      * @param string $format
      *
@@ -538,7 +580,9 @@ HTML;
 
         return end( $weekly );
     }
+}
 
+if ( !function_exists( 'date_weekly_sunday' ) ) {
     /**
      * @param        $date
      * @param string $format
@@ -565,7 +609,9 @@ HTML;
 
         return $period;
     }
+}
 
+if ( !function_exists( 'print_attribute' ) ) {
     /**
      * @param $attributes
      *
@@ -587,7 +633,9 @@ HTML;
 
         return trim( $attr );
     }
+}
 
+if ( !function_exists( 'isJSON' ) ) {
     /**
      * @param $string
      *
@@ -599,7 +647,9 @@ HTML;
 
         return is_string( $string ) && is_array( $decode ) && ( json_last_error() == JSON_ERROR_NONE ) ? $decode : false;
     }
+}
 
+if ( !function_exists( 'cp' ) ) {
     /**
      * To copy a certain source to destination.
      *
@@ -641,8 +691,9 @@ HTML;
             copy( $item, $dest . '/' . $iterator->getSubPathName() );
         }
     }
+}
 
-
+if ( !function_exists( 'folder_files' ) ) {
     /**
      * Get all the files from assigned path.
      *
@@ -678,7 +729,9 @@ HTML;
 
         return $files;
     }
+}
 
+if ( !function_exists( 'clean_title' ) ) {
     /**
      * @param $string
      *
@@ -694,7 +747,9 @@ HTML;
 
         return $result;
     }
+}
 
+if ( !function_exists( 'get_dir_upload_path' ) ) {
     /**
      * @param $filename
      *
@@ -717,7 +772,9 @@ HTML;
 
         return strtolower( join( DIRECTORY_SEPARATOR, $dir ) );
     }
+}
 
+if ( !function_exists( 'recursive_rmdir' ) ) {
     /**
      * @param $dir
      */
@@ -732,7 +789,9 @@ HTML;
             }
         }
     }
+}
 
+if ( !function_exists( 'recursive_rmfile' ) ) {
     /**
      * @param       $dir
      * @param array $extension
@@ -747,7 +806,9 @@ HTML;
             }
         }
     }
+}
 
+if ( !function_exists( 'recursive_copy_file' ) ) {
     /**
      * @param       $dir
      * @param       $target
@@ -763,7 +824,9 @@ HTML;
             }
         }
     }
+}
 
+if ( !function_exists( 'booleanAsInt' ) ) {
     /**
      * @param $value
      *
@@ -783,7 +846,9 @@ HTML;
 
         return 0;
     }
+}
 
+if ( !function_exists( 'is_image_remote' ) ) {
     /**
      * @param $url
      *
@@ -803,7 +868,15 @@ HTML;
 
         return substr( $headers ['content-type'], 0, 5 ) === 'image' || $headers['content-type'] === 'application/pdf';
     }
+}
 
+
+if ( !function_exists( 'slugify' ) ) {
+    /**
+     * @param $str
+     *
+     * @return array|string|string[]|null
+     */
     function slugify( $str )
     {
         // Convert to lowercase and remove whitespace
@@ -827,9 +900,12 @@ HTML;
 
         return $str;
     }
+}
 
+if ( !function_exists( 'capitalize_first' ) ) {
     function capitalize_first( $string )
     {
         return ucfirst( strtolower( $string ) );
     }
 }
+
