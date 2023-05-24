@@ -18,7 +18,7 @@
  +------------------------------------------------------------------------+
  */
 
-namespace Klb\Core\Cache;
+namespace KlbV2\Core\Cache;
 
 use Phalcon\Cache\Backend;
 use Phalcon\Cache\Exception;

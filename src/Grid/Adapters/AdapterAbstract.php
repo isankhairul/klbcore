@@ -1,12 +1,12 @@
-<?php namespace Klb\Core\Grid\Adapters;
+<?php namespace KlbV2\Core\Grid\Adapters;
 
-use Klb\Core\Grid\GridTable;
-use Klb\Core\Grid\ParamsParser;
+use KlbV2\Core\Grid\GridTable;
+use KlbV2\Core\Grid\ParamsParser;
 
 /**
  * Class AdapterAbstract
  *
- * @package Klb\Core\Grid\Adapters
+ * @package KlbV2\Core\Grid\Adapters
  */
 abstract class AdapterAbstract
 {

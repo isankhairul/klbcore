@@ -1,9 +1,9 @@
-<?php namespace Klb\Core\Event\Contract;
+<?php namespace KlbV2\Core\Event\Contract;
 
 /**
  * Interface Listener
  *
- * @package Klb\Core\Event\Contract
+ * @package KlbV2\Core\Event\Contract
  */
 interface Listener
 {

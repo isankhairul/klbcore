@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Klb\Core\Test\Traits;
+namespace KlbV2\Core\Test\Traits;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Escaper as PhEscaper;

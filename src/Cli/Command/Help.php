@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Klb\Core\Cli\Command;
+namespace KlbV2\Core\Cli\Command;
 
 
-use Klb\Core\Task;
+use KlbV2\Core\Task;
 
 class Help extends Task
 {

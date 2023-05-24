@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Klb\Core\Test\PHPUnit;
+namespace KlbV2\Core\Test\PHPUnit;
 
-use Klb\Core\Test\Traits\FunctionalTestCase as FunctionalTestCaseTrait;
+use KlbV2\Core\Test\Traits\FunctionalTestCase as FunctionalTestCaseTrait;
 
 abstract class FunctionalTestCase extends ModelTestCase
 {

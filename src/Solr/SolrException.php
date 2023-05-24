@@ -1,10 +1,10 @@
-<?php namespace Klb\Core\Solr;
+<?php namespace KlbV2\Core\Solr;
 use Exception;
 
 /**
  * Class SolrException
  *
- * @package Klb\Core\Solr
+ * @package KlbV2\Core\Solr
  */
 class SolrException extends Exception
 {

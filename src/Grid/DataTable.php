@@ -1,14 +1,14 @@
-<?php namespace Klb\Core\Grid;
+<?php namespace KlbV2\Core\Grid;
 
 use InvalidArgumentException;
-use Klb\Core\Grid\Adapters\AdapterAbstract;
-use Klb\Core\Grid\Adapters\ArrayAdapter;
-use Klb\Core\Grid\Adapters\QueryBuilder;
-use Klb\Core\Grid\Adapters\RawSql;
-use Klb\Core\Grid\Adapters\ResultSet;
-use Klb\Core\Grid\Builder\DbSelectException;
-use Klb\Core\Grid\Builder\Select;
-use Klb\Core\Model;
+use KlbV2\Core\Grid\Adapters\AdapterAbstract;
+use KlbV2\Core\Grid\Adapters\ArrayAdapter;
+use KlbV2\Core\Grid\Adapters\QueryBuilder;
+use KlbV2\Core\Grid\Adapters\RawSql;
+use KlbV2\Core\Grid\Adapters\ResultSet;
+use KlbV2\Core\Grid\Builder\DbSelectException;
+use KlbV2\Core\Grid\Builder\Select;
+use KlbV2\Core\Model;
 use Phalcon\Db\RawValue;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
@@ -18,7 +18,7 @@ use function str_replace;
 /**
  * Class DataTable
  *
- * @package Klb\Core\Grid
+ * @package KlbV2\Core\Grid
  */
 class DataTable extends Plugin
 {

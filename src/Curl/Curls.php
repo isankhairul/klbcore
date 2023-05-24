@@ -1,6 +1,6 @@
 <?php
 
-namespace Klb\Core\Curl;
+namespace KlbV2\Core\Curl;
 
 use Exception;
 

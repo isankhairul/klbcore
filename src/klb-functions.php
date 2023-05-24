@@ -337,7 +337,7 @@ if ( !function_exists( 'humanize' ) ) {
             return null;
         }
         try {
-            return \Klb\Core\PrettyDateTime::parse( new DateTime( $date ) );
+            return \KlbV2\Core\PrettyDateTime::parse( new DateTime( $date ) );
         } catch ( Exception $e ) {
 
         }

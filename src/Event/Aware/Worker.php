@@ -1,14 +1,14 @@
-<?php namespace Klb\Core\Event\Aware;
+<?php namespace KlbV2\Core\Event\Aware;
 
 
-use Klb\Core\Event\WorkerListener;
+use KlbV2\Core\Event\WorkerListener;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 
 /**
  * Class Worker
  *
- * @package Klb\Core\Event\Aware
+ * @package KlbV2\Core\Event\Aware
  */
 class Worker implements WorkerInterface, EventsAwareInterface
 {

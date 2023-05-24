@@ -1,4 +1,4 @@
-<?php namespace Klb\Core\Ftp;
+<?php namespace KlbV2\Core\Ftp;
 
 use Exception;
 use InvalidArgumentException;

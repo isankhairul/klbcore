@@ -1,10 +1,10 @@
-<?php namespace Klb\Core\Dialect;
-use Klb\Core\Dialect\Contract\DialectFunctionContract;
+<?php namespace KlbV2\Core\Dialect;
+use KlbV2\Core\Dialect\Contract\DialectFunctionContract;
 
 /**
  * Class MySql
  *
- * @package Klb\Core\Dialect
+ * @package KlbV2\Core\Dialect
  */
 class MySql extends \Phalcon\Db\Dialect\Mysql
 {
@@ -23,7 +23,7 @@ class MySql extends \Phalcon\Db\Dialect\Mysql
             'MATCH_AGAINST' => 'MatchAgainst',
         ];
         foreach ( $customFunctions as $key => $value ) {
-            $className = 'Klb\Core\\Dialect\\Extensions\\' . $value;
+            $className = 'KlbV2\Core\\Dialect\\Extensions\\' . $value;
             /** @var DialectFunctionContract $object */
             $object = new $className;
             $this->registerCustomFunction( $key, $object->getFunction() );

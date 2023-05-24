@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Klb\Core\Test\Codeception;
+namespace KlbV2\Core\Test\Codeception;
 
-use Klb\Core\Test\Traits\ModelTestCase as ModelTestCaseTrait;
+use KlbV2\Core\Test\Traits\ModelTestCase as ModelTestCaseTrait;
 
 class ModelTestCase extends UnitTestCase
 {

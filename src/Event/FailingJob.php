@@ -1,15 +1,15 @@
-<?php namespace Klb\Core\Event;
+<?php namespace KlbV2\Core\Event;
 
 use Exception;
-use Klb\Core\Event\Aware\WorkerInterface;
-use Klb\Core\Queue\ManuallyFailedException;
-use Klb\Core\Queue\ProcessJob;
+use KlbV2\Core\Event\Aware\WorkerInterface;
+use KlbV2\Core\Queue\ManuallyFailedException;
+use KlbV2\Core\Queue\ProcessJob;
 
 
 /**
  * Class FailingJob
  *
- * @package Klb\Core\Queue
+ * @package KlbV2\Core\Queue
  */
 class FailingJob
 {

@@ -1,11 +1,11 @@
-<?php namespace Klb\Core\Filter;
+<?php namespace KlbV2\Core\Filter;
 
 use Phalcon\Filter\UserFilterInterface;
 
 /**
  * Class Telephone
  *
- * @package Klb\Core\Filter
+ * @package KlbV2\Core\Filter
  */
 class Telephone implements UserFilterInterface
 {

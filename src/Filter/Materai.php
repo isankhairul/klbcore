@@ -1,11 +1,11 @@
-<?php namespace Klb\Core\Filter;
+<?php namespace KlbV2\Core\Filter;
 
 use Phalcon\Filter\UserFilterInterface;
 
 /**
  * Class Materai
  *
- * @package Klb\Core\Coa
+ * @package KlbV2\Core\Coa
  */
 class Materai implements UserFilterInterface
 {

@@ -1,11 +1,11 @@
-<?php namespace Klb\Core\Model;
+<?php namespace KlbV2\Core\Model;
 
 use Phalcon\Mvc\Model;
 
 /**
  * Class MailTemplate
  *
- * @package Klb\Core\Model
+ * @package KlbV2\Core\Model
  *          SQL:REATE TABLE `mail_template` (
  * `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
  * `name` varchar(100) NOT NULL,

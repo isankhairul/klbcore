@@ -1,4 +1,4 @@
-<?php namespace Klb\Core\Export;
+<?php namespace KlbV2\Core\Export;
 
 use Exception;
 use function array_combine;
@@ -15,7 +15,7 @@ use function usleep;
 /**
  * Trait TraitExport
  *
- * @package Klb\Core\Export
+ * @package KlbV2\Core\Export
  */
 abstract class ModelExport implements ExportContract
 {

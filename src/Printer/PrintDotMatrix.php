@@ -1,11 +1,11 @@
-<?php namespace Klb\Core\Printer;
+<?php namespace KlbV2\Core\Printer;
 
 use Mike42\Escpos\Printer;
 
 /**
  * Class PrintDotMatrix
  *
- * @package Klb\Core\Printer
+ * @package KlbV2\Core\Printer
  */
 class PrintDotMatrix extends Printer
 {

@@ -1,11 +1,11 @@
-<?php namespace Klb\Core\Grid\Adapters;
+<?php namespace KlbV2\Core\Grid\Adapters;
 
 use BadFunctionCallException;
 
 /**
  * Class ResultSet
  *
- * @package Klb\Core\Grid\Adapters
+ * @package KlbV2\Core\Grid\Adapters
  */
 class ResultSet extends AdapterAbstract
 {

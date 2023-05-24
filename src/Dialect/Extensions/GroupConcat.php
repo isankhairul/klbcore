@@ -1,6 +1,6 @@
-<?php namespace Klb\Core\Dialect\Extensions;
+<?php namespace KlbV2\Core\Dialect\Extensions;
 
-use Klb\Core\Dialect\Contract\DialectFunctionContract;
+use KlbV2\Core\Dialect\Contract\DialectFunctionContract;
 use Phalcon\Db\Dialect;
 
 class GroupConcat implements DialectFunctionContract

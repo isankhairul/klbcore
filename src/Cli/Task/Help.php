@@ -1,12 +1,12 @@
-<?php namespace Klb\Core\Cli\Task;
+<?php namespace KlbV2\Core\Cli\Task;
 
-use Klb\Core\Task;
+use KlbV2\Core\Task;
 use function ksort;
 
 /**
  * Class Help
  *
- * @package Klb\Core\Cli\Task
+ * @package KlbV2\Core\Cli\Task
  */
 class Help extends Task
 {

@@ -1,9 +1,9 @@
-<?php namespace Klb\Core;
+<?php namespace KlbV2\Core;
 
 use Danzabar\CLI\Input\InputOption;
 use Danzabar\CLI\Tasks\Helpers\Confirmation;
 use Danzabar\CLI\Tools\ParamBag;
-use Klb\Core\Solr\ConnectionContract;
+use KlbV2\Core\Solr\ConnectionContract;
 use Phalcon\Annotations\Extended\Adapter\Memory as Annotation;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\DiInterface;

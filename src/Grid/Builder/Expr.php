@@ -1,8 +1,8 @@
-<?php namespace Klb\Core\Grid\Builder;
+<?php namespace KlbV2\Core\Grid\Builder;
 /**
  * Class Expr
  *
- * @package Klb\Core\Grid\Builder
+ * @package KlbV2\Core\Grid\Builder
  */
 class Expr
 {

@@ -1,4 +1,4 @@
-<?php namespace Klb\Core;
+<?php namespace KlbV2\Core;
 
 use Exception;
 use InvalidArgumentException;

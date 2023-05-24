@@ -1,17 +1,17 @@
-<?php namespace Klb\Core\Event;
+<?php namespace KlbV2\Core\Event;
 
 use Exception;
-use Klb\Core\Event\Contract\Listener;
-use Klb\Core\Model\FailedJobs;
-use Klb\Core\Queue\InvalidAndDestroyException;
-use Klb\Core\Queue\ProcessJob;
+use KlbV2\Core\Event\Contract\Listener;
+use KlbV2\Core\Model\FailedJobs;
+use KlbV2\Core\Queue\InvalidAndDestroyException;
+use KlbV2\Core\Queue\ProcessJob;
 use Phalcon\Events\Event;
 use function is_object;
 
 /**
  * Class WorkerListener
  *
- * @package Klb\Core\Event
+ * @package KlbV2\Core\Event
  */
 class WorkerListener implements Listener
 {

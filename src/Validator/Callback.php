@@ -1,4 +1,4 @@
-<?php namespace Klb\Core\Validator;
+<?php namespace KlbV2\Core\Validator;
 
 use Phalcon\Validation;
 use Phalcon\Validation\Exception;
@@ -9,7 +9,7 @@ use Phalcon\Validation\ValidatorInterface;
 /**
  * Class Callback
  *
- * @package Klb\Core\Validator
+ * @package KlbV2\Core\Validator
  */
 class Callback extends Validator
 {

@@ -1,4 +1,4 @@
-<?php namespace Klb\Core\Export;
+<?php namespace KlbV2\Core\Export;
 
 
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
@@ -15,7 +15,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Exception;
 /**
  * Class GridExcel
  *
- * @package App\Klb\Export
+ * @package App\KlbV2\Export
  */
 class GridExcel
 {

@@ -1,4 +1,4 @@
-<?php namespace Klb\Core\Model;
+<?php namespace KlbV2\Core\Model;
 
 use Phalcon\Mvc\Model;
 
@@ -14,7 +14,7 @@ use Phalcon\Mvc\Model;
  * PRIMARY KEY (`id`)
  * ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
  *
- * @package Klb\Core\Model
+ * @package KlbV2\Core\Model
  */
 class FailedJobs extends Model
 {

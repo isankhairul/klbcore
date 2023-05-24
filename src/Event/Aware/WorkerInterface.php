@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Klb\Core\Event\Aware;
+namespace KlbV2\Core\Event\Aware;
 
 
 interface WorkerInterface

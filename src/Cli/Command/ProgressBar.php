@@ -1,4 +1,4 @@
-<?php namespace Klb\Core\Cli\Command;
+<?php namespace KlbV2\Core\Cli\Command;
 
 declare( ticks=1 );
 pcntl_signal( SIGINT, function ( $signo ) {
@@ -10,7 +10,7 @@ pcntl_signal( SIGINT, function ( $signo ) {
 /**
  * Class ProgressBar
  *
- * @package Klb\Core\Cli\Command
+ * @package KlbV2\Core\Cli\Command
  * Flexible ascii progress bar.
  *
  * ## Installation

@@ -1,11 +1,11 @@
-<?php namespace Klb\Core\Solr;
+<?php namespace KlbV2\Core\Solr;
 
 use Phalcon\DiInterface;
 
 /**
  * Interface ConnectionContract
  *
- * @package Klb\Core\Solr
+ * @package KlbV2\Core\Solr
  */
 interface ConnectionContract
 {

@@ -1,8 +1,8 @@
-<?php namespace Klb\Core\Export;
+<?php namespace KlbV2\Core\Export;
 
 use Exception;
-use Klb\Core\Ftp\Ftp;
-use Klb\Core\Task;
+use KlbV2\Core\Ftp\Ftp;
+use KlbV2\Core\Task;
 use PDO;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Logger\AdapterInterface;
@@ -18,7 +18,7 @@ use function json_encode;
 /**
  * Trait TraitExport
  *
- * @package Klb\Core\Export
+ * @package KlbV2\Core\Export
  */
 trait TraitExport
 {

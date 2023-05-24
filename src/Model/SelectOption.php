@@ -1,4 +1,4 @@
-<?php namespace Klb\Core\Model;
+<?php namespace KlbV2\Core\Model;
 
 use Phalcon\Db;
 use Phalcon\Db\AdapterInterface;
@@ -8,7 +8,7 @@ use function md5;
 /**
  * Class SelectOption
  *
- * @package Klb\Core\Model
+ * @package KlbV2\Core\Model
  */
 trait SelectOption
 {

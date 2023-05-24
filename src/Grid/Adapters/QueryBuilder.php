@@ -1,4 +1,4 @@
-<?php namespace Klb\Core\Grid\Adapters;
+<?php namespace KlbV2\Core\Grid\Adapters;
 
 use BadMethodCallException;
 use Phalcon\Db;
@@ -11,7 +11,7 @@ use function strpos;
 /**
  * Class QueryBuilder
  *
- * @package Klb\Core\Grid\Adapters
+ * @package KlbV2\Core\Grid\Adapters
  */
 class QueryBuilder extends AdapterAbstract
 {

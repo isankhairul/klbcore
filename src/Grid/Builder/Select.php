@@ -1,4 +1,4 @@
-<?php namespace Klb\Core\Grid\Builder;
+<?php namespace KlbV2\Core\Grid\Builder;
 
 use Exception;
 use function count;
@@ -28,7 +28,7 @@ use function join;
 /**
  * Class Select
  *
- * @package Klb\Core\Grid\Builder
+ * @package KlbV2\Core\Grid\Builder
  */
 class Select
 {

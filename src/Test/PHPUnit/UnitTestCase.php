@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Klb\Core\Test\PHPUnit;
+namespace KlbV2\Core\Test\PHPUnit;
 
-use Klb\Core\Test\Traits\UnitTestCase as UnitTestCaseTrait;
+use KlbV2\Core\Test\Traits\UnitTestCase as UnitTestCaseTrait;
 use PHPUnit\Framework\TestCase as TestCase;
 
 abstract class UnitTestCase extends TestCase

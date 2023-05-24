@@ -1,10 +1,10 @@
-<?php namespace Klb\Core\Grid\Adapters;
+<?php namespace KlbV2\Core\Grid\Adapters;
 use BadFunctionCallException;
 
 /**
  * Class ArrayAdapter
  *
- * @package Klb\Core\Grid\Adapters
+ * @package KlbV2\Core\Grid\Adapters
  */
 class ArrayAdapter extends AdapterAbstract
 {

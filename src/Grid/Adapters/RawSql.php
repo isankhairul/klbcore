@@ -1,9 +1,9 @@
-<?php namespace Klb\Core\Grid\Adapters;
+<?php namespace KlbV2\Core\Grid\Adapters;
 
 use BadMethodCallException;
-use Klb\Core\Grid\Builder\DbSelectException;
-use Klb\Core\Grid\Builder\Expr;
-use Klb\Core\Grid\Builder\Select;
+use KlbV2\Core\Grid\Builder\DbSelectException;
+use KlbV2\Core\Grid\Builder\Expr;
+use KlbV2\Core\Grid\Builder\Select;
 use Phalcon\Db;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Paginator\Adapter\NativeArray;
@@ -12,7 +12,7 @@ use function strpos;
 /**
  * Class RawSql
  *
- * @package Klb\Core\Grid\Adapters
+ * @package KlbV2\Core\Grid\Adapters
  */
 class RawSql extends AdapterAbstract
 {

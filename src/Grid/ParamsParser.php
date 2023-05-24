@@ -1,11 +1,11 @@
-<?php namespace Klb\Core\Grid;
+<?php namespace KlbV2\Core\Grid;
 
 use Phalcon\Mvc\User\Component;
 
 /**
  * Class ParamsParser
  *
- * @package Klb\Core\Grid
+ * @package KlbV2\Core\Grid
  */
 class ParamsParser extends Component
 {

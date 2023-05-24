@@ -1,6 +1,6 @@
 <?php
 
-namespace Klb\Core\Assets;
+namespace KlbV2\Core\Assets;
 
 use Phalcon\Assets\FilterInterface;
 

@@ -1,4 +1,4 @@
-<?php namespace Klb\Core\Solr;
+<?php namespace KlbV2\Core\Solr;
 
 
 use InvalidArgumentException;
@@ -7,7 +7,7 @@ use Phalcon\DiInterface;
 /**
  * Class Connection
  *
- * @package Klb\Core\Solr
+ * @package KlbV2\Core\Solr
  */
 class Connection implements ConnectionContract
 {

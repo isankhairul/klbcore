@@ -1,11 +1,11 @@
-<?php namespace Klb\Core\Assets;
+<?php namespace KlbV2\Core\Assets;
 
 use Phalcon\Tag;
 
 /**
  * Class Manager
  *
- * @package Klb\Core\Assets
+ * @package KlbV2\Core\Assets
  */
 class Manager extends \Phalcon\Assets\Manager
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Klb\Core\Grid;
+namespace KlbV2\Core\Grid;
 
 use Exception;
 use Phalcon\Mvc\User\Component;
@@ -13,7 +13,7 @@ use function strtolower;
 /**
  * Class GridTable
  *
- * @package Klb\Core\Grid
+ * @package KlbV2\Core\Grid
  */
 class GridTable extends Component
 {
@@ -21,7 +21,7 @@ class GridTable extends Component
     /**
      * @var
      */
-    public $name = 'KlbTableGrid0';
+    public $name = 'KlbV2TableGrid0';
 
     /**
      * @var string

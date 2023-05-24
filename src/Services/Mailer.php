@@ -1,10 +1,10 @@
 <?php
 
 
-namespace Klb\Core\Services;
+namespace KlbV2\Core\Services;
 
 
-use Klb\Core\Model\MailTemplate;
+use KlbV2\Core\Model\MailTemplate;
 use Phalcon\Config;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;

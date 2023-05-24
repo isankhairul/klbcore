@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Klb\Core\Test\Codeception;
+namespace KlbV2\Core\Test\Codeception;
 
 use Codeception\Test\Unit;
-use Klb\Core\Test\Traits\UnitTestCase as UnitTestCaseTrait;
+use KlbV2\Core\Test\Traits\UnitTestCase as UnitTestCaseTrait;
 
 class UnitTestCase extends Unit
 {

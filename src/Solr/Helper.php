@@ -1,4 +1,4 @@
-<?php namespace Klb\Core\Solr;
+<?php namespace KlbV2\Core\Solr;
 
 use DateTime;
 use DateTimeInterface;

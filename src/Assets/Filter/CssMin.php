@@ -1,4 +1,4 @@
-<?php namespace Klb\Core\Assets\Filter;
+<?php namespace KlbV2\Core\Assets\Filter;
 
 use MatthiasMullie\Minify\CSS;
 use Phalcon\Assets\FilterInterface;
@@ -6,7 +6,7 @@ use Phalcon\Assets\FilterInterface;
 /**
  * Class CssMin
  *
- * @package Klb\Core\Assets\Filter
+ * @package KlbV2\Core\Assets\Filter
  */
 class CssMin implements FilterInterface
 {

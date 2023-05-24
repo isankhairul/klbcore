@@ -1,7 +1,7 @@
-<?php namespace Klb\Core\Export;
+<?php namespace KlbV2\Core\Export;
 
 use Exception;
-use Klb\Core\Task;
+use KlbV2\Core\Task;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Logger\AdapterInterface;
 use Phalcon\Mvc\Model;
@@ -11,7 +11,7 @@ use stdClass;
 /**
  * Interface ExportContract
  *
- * @package Klb\Core\Export
+ * @package KlbV2\Core\Export
  */
 interface ExportContract
 {

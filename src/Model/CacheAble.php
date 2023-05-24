@@ -1,8 +1,8 @@
-<?php namespace Klb\Core\Model;
+<?php namespace KlbV2\Core\Model;
 /**
  * Class CacheAble
  *
- * @package Klb\Core\Model
+ * @package KlbV2\Core\Model
  */
 trait CacheAble
 {

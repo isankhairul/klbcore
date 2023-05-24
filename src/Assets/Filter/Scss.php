@@ -1,11 +1,11 @@
-<?php namespace Klb\Core\Assets\Filter;
+<?php namespace KlbV2\Core\Assets\Filter;
 
 use Phalcon\Assets\FilterInterface;
 
 /**
  * Class Scss
  *
- * @package Klb\Core\Assets\Filter
+ * @package KlbV2\Core\Assets\Filter
  */
 class Scss implements FilterInterface
 {

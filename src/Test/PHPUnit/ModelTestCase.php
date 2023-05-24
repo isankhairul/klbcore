@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Klb\Core\Test\PHPUnit;
+namespace KlbV2\Core\Test\PHPUnit;
 
-use Klb\Core\Test\Traits\ModelTestCase as ModelTestCaseTrait;
+use KlbV2\Core\Test\Traits\ModelTestCase as ModelTestCaseTrait;
 
 abstract class ModelTestCase extends UnitTestCase
 {

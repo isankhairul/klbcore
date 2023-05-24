@@ -1,9 +1,9 @@
-<?php namespace Klb\Core\Grid;
+<?php namespace KlbV2\Core\Grid;
 
 /**
  * Class GridDetailOption
  *
- * @package Klb\Core\Grid
+ * @package KlbV2\Core\Grid
  */
 class GridDetailOption
 {

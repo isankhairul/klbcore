@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Klb\Core\Test\Codeception;
+namespace KlbV2\Core\Test\Codeception;
 
-use Klb\Core\Test\Traits\FunctionalTestCase as FunctionalTestCaseTrait;
+use KlbV2\Core\Test\Traits\FunctionalTestCase as FunctionalTestCaseTrait;
 
 class FunctionalTestCase extends ModelTestCase
 {

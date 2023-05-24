@@ -1,10 +1,10 @@
-<?php namespace Klb\Core\Dialect\Contract;
+<?php namespace KlbV2\Core\Dialect\Contract;
 use Closure;
 
 /**
  * Interface DialectFunctionContract
  *
- * @package Klb\Core\Dialect\Contract
+ * @package KlbV2\Core\Dialect\Contract
  */
 interface DialectFunctionContract
 {

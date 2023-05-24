@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Klb\Core\Test;
+namespace KlbV2\Core\Test;
 
-use Klb\Core\Test\PHPUnit\ModelTestCase as ModelTest;
+use KlbV2\Core\Test\PHPUnit\ModelTestCase as ModelTest;
 
 /**
  * Class serves as a placeholder for backwards compatibility
