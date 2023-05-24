@@ -19,7 +19,7 @@
     "ext-mbstring": "*",
     "ext-pcntl": "*",
     "ext-phalcon": "^3.4",
-    "ext-rdkafka": "^3.1.2",
+    "ext-rdkafka": "6.0.3",
     "danzabar/phalcon-cli": "^1.0",
     "swiftmailer/swiftmailer": "^6.2",
     "jmhobbs/swiftmailer-transport-aws-ses": "^1.0.0",
@@ -27,7 +27,7 @@
     "phalcon/incubator": "^3.4",
     "league/csv": "^9.4",
     "phpoffice/phpspreadsheet": "^1.9",
-    "enqueue/rdkafka": "0.9.15",
+    "enqueue/enqueue": "0.10.18",
     "matthiasmullie/minify": "^1.3"
   },
   "suggest": {
