@@ -436,7 +436,7 @@ class QueryBuilder extends AdapterAbstract
         if ( $hasHaving ) {
             $sql = $totalQuery->getSql();
 
-            $row = di( 'db' )->fetchOne( "SELECT COUNT(*) as \"rowcount\" FROM (" . $sql["sql"] . ") as T1", Db::FETCH_ASSOC, $sql["bind"] );
+            $row = di( 'db' )->fetchOne( "SELECT COUNT(*) as \"rowcount\" FROM (" . $sql["sql"] . ") as T1", Db\Enum::FETCH_ASSOC, $sql["bind"] );
             $rowcount = $row ? intval( $row["rowcount"] ) : 0;
             $totalPages = intval( ceil( $rowcount / $limit ) );
         } else {

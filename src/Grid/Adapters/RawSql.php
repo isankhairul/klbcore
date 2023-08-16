@@ -357,7 +357,7 @@ class RawSql extends AdapterAbstract
         $db = di( 'db' );
 //        pre($this->parser->getLimit(),/* $this->parser->getParams(), */$this->parser->getColumnsSearch(), $this->columns, $this->colMaps, $this->builder.'');
         $builderOptions = [
-            'data'  => $db->fetchAll( $this->builder->__toString(), $this->getParser()->isFetchAssoc() ? Db::FETCH_ASSOC : Db::FETCH_OBJ ),
+            'data'  => $db->fetchAll( $this->builder->__toString(), $this->getParser()->isFetchAssoc() ? Db\Enum::FETCH_ASSOC : Db\Enum::FETCH_OBJ ),
             'limit' => $this->parser->getLimit(),
             'page'  => $this->parser->getPage(),
         ];

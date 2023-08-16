@@ -71,7 +71,7 @@ SQL;
         $conn = $me->getReadConnection();
         /** @var array $products */
         $me->getDI()->get( 'logger' )->info( $sql );
-        $rows = $conn->fetchAll( $sql, Db::FETCH_ASSOC );
+        $rows = $conn->fetchAll( $sql, Db\Enum::FETCH_ASSOC );
         $options = [];
         foreach ( $rows as $row ) {
             $optionKey = $prefixKey . $row[$keys[0]];
