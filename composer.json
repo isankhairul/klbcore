@@ -24,7 +24,6 @@
     "swiftmailer/swiftmailer": "^6.2",
     "jmhobbs/swiftmailer-transport-aws-ses": "^1.0.0",
     "mike42/escpos-php": "^2.0.2",
-    "phalcon/incubator": "4.0.0-alpha.1",
     "league/csv": "^9.4",
     "phpoffice/phpspreadsheet": "^1.9",
     "enqueue/enqueue": "0.10.18",
