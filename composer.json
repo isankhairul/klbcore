@@ -18,7 +18,7 @@
     "ext-pdo": "*",
     "ext-mbstring": "*",
     "ext-pcntl": "*",
-    "ext-phalcon": "^5",
+    "ext-phalcon": "^4",
     "ext-rdkafka": "6.0.3",
     "danzabar/phalcon-cli": "^1.0",
     "swiftmailer/swiftmailer": "^6.3",
