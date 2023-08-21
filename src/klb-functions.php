@@ -1,7 +1,7 @@
 <?php
 
 
-use Phalcon\Di;
+use Phalcon\Di\Di;
 
 
 /**

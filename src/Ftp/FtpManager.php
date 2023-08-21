@@ -2,7 +2,7 @@
 
 use Exception;
 use InvalidArgumentException;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 class FtpManager
 {

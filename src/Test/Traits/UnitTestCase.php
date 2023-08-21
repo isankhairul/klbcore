@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Klb\Core\Test\Traits;
 
 use Phalcon\Config;
-use Phalcon\Di;
+use Phalcon\Di\Di;
 use Phalcon\Escaper;
 use Phalcon\Url;
 
@@ -32,7 +32,7 @@ trait UnitTestCase
     protected $config;
 
     /**
-     * @var Di\DiInterface|\Phalcon\DiInterface
+     * @var Di\DiInterface|\Phalcon\Di\DiInterface
      */
     protected $di;
 
@@ -163,7 +163,7 @@ trait UnitTestCase
      * Sets the Dependency Injector.
      *
      * @see    Injectable::setDI
-     * @param  Di\DiInterface|\Phalcon\DiInterface $di
+     * @param  Di\DiInterface|\Phalcon\Di\DiInterface $di
      * @return void
      */
     public function setDI( $di ): void
@@ -175,7 +175,7 @@ trait UnitTestCase
      * Returns the internal Dependency Injector.
      *
      * @see    Injectable::getDI
-     * @return Di\DiInterface|\Phalcon\DiInterface
+     * @return Di\DiInterface|\Phalcon\Di\DiInterface
      */
     public function getDI()
     {

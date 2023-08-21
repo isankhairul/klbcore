@@ -6,7 +6,7 @@ use PDO;
 use Phalcon\Cache\Backend\Redis;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\AdapterInterface;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\Transaction;

@@ -2,7 +2,7 @@
 
 
 use InvalidArgumentException;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 /**
  * Class Connection

@@ -1,6 +1,6 @@
 <?php namespace Klb\Core\Solr;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 /**
  * Interface ConnectionContract

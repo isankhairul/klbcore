@@ -6,7 +6,7 @@ use Danzabar\CLI\Tools\ParamBag;
 use Klb\Core\Solr\ConnectionContract;
 use Phalcon\Annotations\Extended\Adapter\Memory as Annotation;
 use Phalcon\Db\Adapter\Pdo\Mysql;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Queue\Beanstalk;
 
