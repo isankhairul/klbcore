@@ -780,6 +780,10 @@ if ( !function_exists( 'recursive_rmdir' ) ) {
      */
     function recursive_rmdir( $dir )
     {
+        if ( !is_file( $dir ) ) {
+            return false;
+        }
+        
         $iterator = new RecursiveIteratorIterator( new RecursiveDirectoryIterator( $dir, FilesystemIterator::SKIP_DOTS ), RecursiveIteratorIterator::CHILD_FIRST );
         foreach ( $iterator as $filename => $fileInfo ) {
             if ( $fileInfo->isDir() ) {
